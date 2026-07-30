@@ -1,5 +1,7 @@
 "use client";
 import Image from "next/image";
+import { loginAdmin } from "../../../api/auth";
+import { useRouter } from "next/navigation";
 
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
@@ -9,7 +11,9 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../../data-store/actions/authActions';
 
 export default function Login() {
+
   const dispatch = useDispatch();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -26,17 +30,30 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  
+
+
+  //            Thiyaguuu update -------------->>>>>>>>>>>>>>>>>>>>
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await loginAdmin(formData);
+      const token = response.token;
+      localStorage.setItem("token", token);
+      dispatch(login(token));
+      router.push("/customize");
+    }
+     catch (error) {
+      console.log("Login Failed");
+      console.log(error);
 
-    console.log("Login Data");
-
-    console.log(formData);
-    localStorage.setItem("token", "abc");
-    dispatch(login("abc"));
-
-    // API Call Here
+    }
   };
+
+  
+
+
+
 
   return (
     <div className="min-h-screen bg-[#aaf485] flex items-center justify-center px-4">

@@ -1,14 +1,24 @@
+
+//  Thiayguu update ( baseURL Name )
+
 import axios from "axios";
 
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 50000,
-  headers: {"Content-Type": "application/json",}
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) { config.headers.Authorization = `Bearer ${token}`;}
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
   return config;
 });
 

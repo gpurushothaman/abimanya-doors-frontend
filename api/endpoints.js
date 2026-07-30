@@ -1,3 +1,5 @@
- export const ENDPOINTS = {
-  LOGIN: "/auth/login",
+
+// Thiyagu update (LOGIN endpoints)
+export const ENDPOINTS = {
+  LOGIN: "/api/admin/auth/login",
 };
