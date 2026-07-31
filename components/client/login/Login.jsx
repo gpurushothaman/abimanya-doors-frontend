@@ -7,11 +7,10 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 //redux
-import { useDispatch } from 'react-redux';
-import { login } from '../../../data-store/actions/authActions';
+import { useDispatch } from "react-redux";
+import { login } from "../../../data-store/actions/authActions";
 
 export default function Login() {
-
   const dispatch = useDispatch();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -30,10 +29,6 @@ export default function Login() {
     }));
   };
 
-  
-
-
-  //            Thiyaguuu update -------------->>>>>>>>>>>>>>>>>>>>
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -42,18 +37,11 @@ export default function Login() {
       localStorage.setItem("token", token);
       dispatch(login(token));
       router.push("/customize");
-    }
-     catch (error) {
+    } catch (error) {
       console.log("Login Failed");
       console.log(error);
-
     }
   };
-
-  
-
-
-
 
   return (
     <div className="min-h-screen bg-[#aaf485] flex items-center justify-center px-4">

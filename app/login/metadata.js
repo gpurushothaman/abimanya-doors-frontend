@@ -1,4 +1,4 @@
 export const metadata = {
-    title: "Loginsdg",
+    title: "Abimanya Doors | Login",
     description: "Login to your account",
 };
