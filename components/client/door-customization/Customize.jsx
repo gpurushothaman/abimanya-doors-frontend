@@ -3,26 +3,15 @@
 export default function Customize() {
   return (
     <main className="min-h-screen bg-[#aaf485] text-[#202522]">
-
-
-
-
-
-
       <div className="mx-auto flex min-h-screen w-full max-w-[500px] flex-col bg-amber-50">
-
         {/* ================= HEADER ================= */}
 
         <header className="px-5 pb-5 pt-28">
-
           <div className="flex items-center justify-between">
-
             <div>
               <h1 className="text-[26px] font-semibold tracking-[-0.5px]">
                 Customize Options
               </h1>
-
-              
             </div>
 
             <button
@@ -36,23 +25,15 @@ export default function Customize() {
                 strokeWidth="2"
                 className="h-6 w-6"
               >
-                <path
-                  strokeLinecap="round"
-                  d="M6 6l12 12M18 6L6 18"
-                />
+                <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
-
           </div>
-
         </header>
-
 
         {/* ================= CONTENT ================= */}
 
         <div className="flex-1 overflow-y-auto px-4 pb-28">
-
-
           {/* =====================================================
               DOOR OPTIONS
           ===================================================== */}
@@ -61,13 +42,9 @@ export default function Customize() {
             open
             className="group overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(0,0,0,0.08)]"
           >
-
             <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
-
               <div>
-                <h2 className="text-[18px] font-semibold">
-                  Door Options
-                </h2>
+                <h2 className="text-[18px] font-semibold">Door Options</h2>
 
                 <p className="mt-1 text-[12px] text-gray-500">
                   Design and configure your door
@@ -87,27 +64,19 @@ export default function Customize() {
                   d="M6 9l6 6 6-6"
                 />
               </svg>
-
             </summary>
-
 
             {/* ================= DOOR SUB OPTIONS ================= */}
 
             <div className="bg-[#fafafa] px-3 pb-3">
-
-
               {/* LOCATIONS */}
 
               <details
                 open
                 className="group/item mt-2 overflow-hidden rounded-xl bg-white shadow-sm"
               >
-
                 <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-
-                  <span className="text-[16px] font-medium">
-                    Locations
-                  </span>
+                  <span className="text-[16px] font-medium">Locations</span>
 
                   <svg
                     viewBox="0 0 24 24"
@@ -122,18 +91,14 @@ export default function Customize() {
                       d="M6 9l6 6 6-6"
                     />
                   </svg>
-
                 </summary>
 
                 <div className="border-t border-gray-100 px-5 pb-5 pt-4">
-
                   <label className="mb-2 block text-[12px] font-medium text-gray-500">
                     Door Location
                   </label>
 
-                  <select
-                    className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3.5 text-[14px] outline-none transition focus:border-[#198754] focus:bg-white focus:ring-4 focus:ring-[#aaf485]/60"
-                  >
+                  <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3.5 text-[14px] outline-none transition focus:border-[#198754] focus:bg-white focus:ring-4 focus:ring-[#aaf485]/60">
                     <option>Select door location</option>
                     <option>Main Entrance Door</option>
                     <option>Balcony Door</option>
@@ -145,21 +110,14 @@ export default function Customize() {
                     <option>Study Office Door</option>
                     <option>Store Room Door</option>
                   </select>
-
                 </div>
-
               </details>
-
 
               {/* DESIGNS */}
 
               <details className="group/item mt-2 overflow-hidden rounded-xl bg-white shadow-sm">
-
                 <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-
-                  <span className="text-[16px] font-medium">
-                    Designs
-                  </span>
+                  <span className="text-[16px] font-medium">Designs</span>
 
                   <svg
                     viewBox="0 0 24 24"
@@ -174,11 +132,9 @@ export default function Customize() {
                       d="M6 9l6 6 6-6"
                     />
                   </svg>
-
                 </summary>
 
                 <div className="space-y-4 border-t border-gray-100 px-5 pb-5 pt-4">
-
                   <div>
                     <label className="mb-2 block text-[12px] font-medium text-gray-500">
                       Design
@@ -222,21 +178,14 @@ export default function Customize() {
                       <option>Select shade</option>
                     </select>
                   </div>
-
                 </div>
-
               </details>
-
 
               {/* FRAMES */}
 
               <details className="group/item mt-2 overflow-hidden rounded-xl bg-white shadow-sm">
-
                 <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-
-                  <span className="text-[16px] font-medium">
-                    Frames
-                  </span>
+                  <span className="text-[16px] font-medium">Frames</span>
 
                   <svg
                     viewBox="0 0 24 24"
@@ -251,13 +200,10 @@ export default function Customize() {
                       d="M6 9l6 6 6-6"
                     />
                   </svg>
-
                 </summary>
 
                 <div className="space-y-5 border-t border-gray-100 px-5 pb-5 pt-4">
-
                   <div>
-
                     <label className="mb-2 block text-[12px] font-medium text-gray-500">
                       Frame
                     </label>
@@ -268,29 +214,21 @@ export default function Customize() {
                       <option>Half</option>
                       <option>Full</option>
                     </select>
-
                   </div>
-
 
                   {/* WALL DIMENSIONS */}
 
                   <div className="rounded-xl bg-[#f6f8f5] p-4">
-
-                    <p className="text-[14px] font-semibold">
-                      Wall Dimensions
-                    </p>
+                    <p className="text-[14px] font-semibold">Wall Dimensions</p>
 
                     <p className="mt-1 text-[12px] text-gray-500">
                       Adjust the wall size for your door
                     </p>
 
-
                     {/* HEIGHT */}
 
                     <div className="mt-5">
-
                       <div className="mb-2 flex items-center justify-between">
-
                         <label className="text-[13px] font-medium">
                           Height
                         </label>
@@ -298,7 +236,6 @@ export default function Customize() {
                         <span className="text-[12px] font-semibold text-[#198754]">
                           1800 mm
                         </span>
-
                       </div>
 
                       <input
@@ -312,24 +249,17 @@ export default function Customize() {
                       <p className="mt-2 text-[11px] text-gray-400">
                         1800 – 2400 mm
                       </p>
-
                     </div>
-
 
                     {/* WIDTH */}
 
                     <div className="mt-5">
-
                       <div className="mb-2 flex items-center justify-between">
-
-                        <label className="text-[13px] font-medium">
-                          Width
-                        </label>
+                        <label className="text-[13px] font-medium">Width</label>
 
                         <span className="text-[12px] font-semibold text-[#198754]">
                           600 mm
                         </span>
-
                       </div>
 
                       <input
@@ -343,16 +273,12 @@ export default function Customize() {
                       <p className="mt-2 text-[11px] text-gray-400">
                         600 – 1200 mm
                       </p>
-
                     </div>
-
 
                     {/* THICKNESS */}
 
                     <div className="mt-5">
-
                       <div className="mb-2 flex items-center justify-between">
-
                         <label className="text-[13px] font-medium">
                           Wall Thickness
                         </label>
@@ -360,7 +286,6 @@ export default function Customize() {
                         <span className="text-[12px] font-semibold text-[#198754]">
                           140 mm
                         </span>
-
                       </div>
 
                       <input
@@ -374,11 +299,8 @@ export default function Customize() {
                       <p className="mt-2 text-[11px] text-gray-400">
                         140 – 260 mm
                       </p>
-
                     </div>
-
                   </div>
-
 
                   {/* FRAME TYPE */}
 
@@ -392,7 +314,6 @@ export default function Customize() {
                     </select>
                   </div>
 
-
                   {/* FRAME TYPE OPTIONS */}
 
                   <div>
@@ -405,7 +326,6 @@ export default function Customize() {
                     </select>
                   </div>
 
-
                   {/* FRAME SECTION */}
 
                   <div>
@@ -417,21 +337,14 @@ export default function Customize() {
                       <option>Select Frame Section</option>
                     </select>
                   </div>
-
                 </div>
-
               </details>
-
 
               {/* THRESHOLD */}
 
               <details className="group/item mt-2 overflow-hidden rounded-xl bg-white shadow-sm">
-
                 <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-
-                  <span className="text-[16px] font-medium">
-                    Threshold
-                  </span>
+                  <span className="text-[16px] font-medium">Threshold</span>
 
                   <svg
                     viewBox="0 0 24 24"
@@ -446,11 +359,9 @@ export default function Customize() {
                       d="M6 9l6 6 6-6"
                     />
                   </svg>
-
                 </summary>
 
                 <div className="border-t border-gray-100 px-5 pb-5 pt-4">
-
                   <label className="mb-2 block text-[12px] font-medium text-gray-500">
                     Threshold
                   </label>
@@ -460,21 +371,14 @@ export default function Customize() {
                     <option>Yes</option>
                     <option>No</option>
                   </select>
-
                 </div>
-
               </details>
-
 
               {/* ORIENTATION */}
 
               <details className="group/item mt-2 overflow-hidden rounded-xl bg-white shadow-sm">
-
                 <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-
-                  <span className="text-[16px] font-medium">
-                    Orientation
-                  </span>
+                  <span className="text-[16px] font-medium">Orientation</span>
 
                   <svg
                     viewBox="0 0 24 24"
@@ -489,11 +393,9 @@ export default function Customize() {
                       d="M6 9l6 6 6-6"
                     />
                   </svg>
-
                 </summary>
 
                 <div className="border-t border-gray-100 px-5 pb-5 pt-4">
-
                   <label className="mb-2 block text-[12px] font-medium text-gray-500">
                     Door Orientation
                   </label>
@@ -503,28 +405,19 @@ export default function Customize() {
                     <option>LHS</option>
                     <option>RHS</option>
                   </select>
-
                 </div>
-
               </details>
-
             </div>
-
           </details>
-
 
           {/* =====================================================
               JAMB OPTIONS
           ===================================================== */}
 
           <details className="group mt-4 overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(0,0,0,0.08)]">
-
             <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
-
               <div>
-                <h2 className="text-[17px] font-semibold">
-                  Jamb Options
-                </h2>
+                <h2 className="text-[17px] font-semibold">Jamb Options</h2>
 
                 <p className="mt-1 text-[12px] text-gray-500">
                   Configure jamb placement
@@ -544,11 +437,9 @@ export default function Customize() {
                   d="M6 9l6 6 6-6"
                 />
               </svg>
-
             </summary>
 
             <div className="border-t border-gray-100 p-5">
-
               <label className="mb-2 block text-[12px] font-medium text-gray-500">
                 Jamb Location
               </label>
@@ -558,20 +449,15 @@ export default function Customize() {
                 <option>Front</option>
                 <option>Back</option>
               </select>
-
             </div>
-
           </details>
-
 
           {/* =====================================================
               ARCHITRAVE OPTIONS
           ===================================================== */}
 
           <details className="group mt-4 overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(0,0,0,0.08)]">
-
             <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
-
               <div>
                 <h2 className="text-[17px] font-semibold">
                   Architrave Options
@@ -595,13 +481,10 @@ export default function Customize() {
                   d="M6 9l6 6 6-6"
                 />
               </svg>
-
             </summary>
 
             <div className="space-y-4 border-t border-gray-100 p-5">
-
               <div>
-
                 <label className="mb-2 block text-[12px] font-medium text-gray-500">
                   Front Architrave
                 </label>
@@ -609,11 +492,9 @@ export default function Customize() {
                 <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
                   <option>Select Front Architrave</option>
                 </select>
-
               </div>
 
               <div>
-
                 <label className="mb-2 block text-[12px] font-medium text-gray-500">
                   Back Architrave
                 </label>
@@ -621,26 +502,18 @@ export default function Customize() {
                 <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
                   <option>Select Back Architrave</option>
                 </select>
-
               </div>
-
             </div>
-
           </details>
-
 
           {/* =====================================================
               THICKNESS OPTIONS
           ===================================================== */}
 
           <details className="group mt-4 overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(0,0,0,0.08)]">
-
             <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
-
               <div>
-                <h2 className="text-[17px] font-semibold">
-                  Thickness Options
-                </h2>
+                <h2 className="text-[17px] font-semibold">Thickness Options</h2>
 
                 <p className="mt-1 text-[12px] text-gray-500">
                   Choose your door thickness
@@ -660,17 +533,14 @@ export default function Customize() {
                   d="M6 9l6 6 6-6"
                 />
               </svg>
-
             </summary>
 
             <div className="border-t border-gray-100 p-5">
-
               <label className="mb-2 block text-[12px] font-medium text-gray-500">
                 Door Thickness
               </label>
 
               <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
-
                 <option>Select Door Thickness</option>
                 <option>32 mm</option>
                 <option>35 mm</option>
@@ -678,29 +548,21 @@ export default function Customize() {
                 <option>40 mm</option>
                 <option>45 mm</option>
                 <option>50 mm</option>
-
               </select>
-
             </div>
-
           </details>
-
         </div>
-
 
         {/* ================= BOTTOM BUTTON ================= */}
 
         <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto w-full max-w-[500px]  p-3">
-
           <button
             type="button"
             className="flex h-[52px] w-full items-center justify-center rounded-xl bg-[#198754] text-[16px] font-semibold text-white shadow-lg shadow-green-900/15 transition hover:bg-[#157347] active:scale-[0.99]"
           >
             Save
           </button>
-
         </div>
-
       </div>
     </main>
   );

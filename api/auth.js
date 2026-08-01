@@ -1,4 +1,3 @@
-
 // Thiyaguu Update the full new (Auth.js) file
 
 import api from "./axios";
