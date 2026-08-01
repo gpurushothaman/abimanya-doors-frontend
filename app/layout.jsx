@@ -6,6 +6,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import ClientTopProgressBar from "@/components/ClientTopProgressBar";
 
+
 //Data-store
 import Providers from "./Providers";
 
@@ -84,18 +85,26 @@ const jsonLd = {
     "https://www.instagram.com/alvalens_/",
   ],
 };
-
+                          //   Thiyaguu change entire section ----------->>>>>>
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${poppins.variable} ${jost.variable}`}>
       <body>
+
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
         />
+
         <ClientTopProgressBar />
-        <Navbar />
-        <Providers>{children}</Providers>
+
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
+
       </body>
     </html>
   );

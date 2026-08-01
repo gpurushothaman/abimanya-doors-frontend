@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { loginAdmin } from "../../../api/auth";
 import { useRouter } from "next/navigation";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
@@ -19,29 +21,63 @@ export default function Login() {
     password: "",
     rememberMe: true,
   });
+  const [toast, setToast] = useState({ open: false, message: "", severity: "success", });
+
+  //   Thiyaguu updated toast and validation option --------------->>>>>>>>>>>>>>>>
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
+  const handleClose = () => {
+    setToast((prev) => ({
+      ...prev,
+      open: false,
+    }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Email Empty
+    if (!formData.email.trim()) {
+      setToast({ open: true, message: "Please enter your email", severity: "error", });
+      return;
+    }
+    // Email Format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setToast({ open: true, message: "Please enter a valid email address", severity: "error", });
+      return;
+    }
+    // Password Empty
+    if (!formData.password.trim()) {
+      setToast({ open: true, message: "Please enter your password", severity: "error", });
+      return;
+    }
+    // Password Length
+    if (formData.password.length < 6) {
+      setToast({ open: true, message: "Password must be at least 6 characters", severity: "error", });
+      return;
+    }
+    // ---------- API ----------
     try {
       const response = await loginAdmin(formData);
+      console.log(response.user);
       const token = response.token;
+      const user = response.user;
       localStorage.setItem("token", token);
-      dispatch(login(token));
-      router.push("/customize");
+      dispatch(login(token,user));
+      setToast({ open: true, message: "Login Successfully", severity: "success", });
+     setTimeout(() => { router.push("/customize");}, 3000);
     } catch (error) {
-      console.log("Login Failed");
+      setToast({ open: true, message: "Invalid email or password", severity: "error", });
       console.log(error);
     }
   };
+
+
 
   return (
     <div className="min-h-screen bg-[#aaf485] flex items-center justify-center px-4">
@@ -52,9 +88,10 @@ export default function Login() {
             <Image
               src="/logo/logo.png"
               alt="Abimanya Doors Logo"
-              className="h-20 object-contain"
-              width="175"
-              height="150"
+              width={150}
+              height={150}
+              className="h-20 w-65 object-contain"
+              priority
             />
           </div>
 
@@ -153,6 +190,35 @@ export default function Login() {
           </button>
         </form>
       </div>
+
+
+
+
+
+      {/*Thiyaguu Toast Option */}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={toast.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {toast.message}
+        </Alert>
+      </Snackbar>
+
+
+
     </div>
   );
 }
+
+
