@@ -1,16 +1,19 @@
 "use client";
 import Image from "next/image";
-import { loginAdmin } from "../../../api/auth";
 import { useRouter } from "next/navigation";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import Cookies from "js-cookie"; 
 
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 //redux
 import { useDispatch } from "react-redux";
-import { login } from "../../../data-store/actions/authActions";
+import { login } from "@data-store/actions/authActions";
+
+//Api
+import { authlogin } from "@services/authService";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -63,13 +66,17 @@ export default function Login() {
     }
     // ---------- API ----------
     try {
-      const response = await loginAdmin(formData);
-      console.log(response.user);
-      const token = response.token;
-      const user = response.user;
-      localStorage.setItem("token", token);
+      const response = await authlogin(formData);  
+      if(response?.data?.success){
+      const token = response?.data?.token;
+      const user = response?.data?.user;
+      console.log("token:=",response)
+      Cookies.set("token", token, { expires: 1 }); 
       dispatch(login(token,user));
       setToast({ open: true, message: "Login Successfully", severity: "success", });
+      }else{
+        setToast({ open: true, message: "Something went wrong. Try after sometime.", severity: "error", });
+      }
      setTimeout(() => { router.push("/customize");}, 3000);
     } catch (error) {
       setToast({ open: true, message: "Invalid email or password", severity: "error", });

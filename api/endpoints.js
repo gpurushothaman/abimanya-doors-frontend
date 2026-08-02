@@ -1,5 +1,6 @@
 
 // Thiyagu update (LOGIN endpoints)
 export const ENDPOINTS = {
-  LOGIN: "/api/admin/auth/login",
+  LOGIN: "/auth/login",
+  DOOR_CUSTOMIZE_OPTIONS: "/door-customize-options" 
 };
