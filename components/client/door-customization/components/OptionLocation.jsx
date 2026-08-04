@@ -1,6 +1,7 @@
 "use client";
 
-export default function OptionLocation({ locationData }) {
+export default function OptionLocation({ locationData, state }) {
+  console.log("state:=",state)
   return (
     <details
       open

@@ -1,4 +1,13 @@
 "use client";
+import { useReducer, useEffect } from "react";
+
+//Reducer
+import {
+  rootReducer,
+  initialState,
+  storeData,
+} from "./components/state-handling/root";
+
 //Components
 //UI
 import OptionLocation from "./components/OptionLocation";
@@ -6,7 +15,26 @@ import OptionDesign from "./components/OptionDesign";
 //Tools
 import DoorCanvas from "./components/tools/DoorCanvas";
 
+
 export default function Customize({ optionsData }) {
+
+  const [state, dispatch] = useReducer(
+    rootReducer,
+    initialState
+  );
+
+  useEffect(()=>{
+    storeDataToRootReducer();
+  },[]);
+
+  const storeDataToRootReducer = () => {
+    dispatch(
+      storeData(
+        optionsData
+      )
+    );
+  };
+
   console.log("wow:=", optionsData);
   return (
     <main className="min-h-screen bg-[#aaf485] text-[#202522]">
@@ -84,7 +112,7 @@ export default function Customize({ optionsData }) {
                   <div className="bg-[#fafafa] px-3 pb-3">
                     {/* LOCATIONS */}
 
-                    <OptionLocation locationData={optionsData?.location} />
+                    <OptionLocation locationData={optionsData?.location} state={state}/>
 
                     {/* DESIGNS */}
 
