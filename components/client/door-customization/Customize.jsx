@@ -12,17 +12,22 @@ import {
 //UI
 import OptionLocation from "./components/OptionLocation";
 import OptionDesign from "./components/OptionDesign";
+import OptionSubDesign from "./components/OptionSubDesign";
+import OptionModel from "./components/OptionModel";
+import OptionShade from "./components/OptionShade";
 //Tools
 import DoorCanvas from "./components/tools/DoorCanvas";
 
 
 export default function Customize({ optionsData }) {
 
+  //Reducer
   const [state, dispatch] = useReducer(
     rootReducer,
     initialState
   );
 
+  //Store data
   useEffect(()=>{
     storeDataToRootReducer();
   },[]);
@@ -112,7 +117,7 @@ export default function Customize({ optionsData }) {
                   <div className="bg-[#fafafa] px-3 pb-3">
                     {/* LOCATIONS */}
 
-                    <OptionLocation locationData={optionsData?.location} state={state}/>
+                    <OptionLocation locationData={optionsData?.location} state={state} dispatch={dispatch}/>
 
                     {/* DESIGNS */}
 
@@ -136,37 +141,15 @@ export default function Customize({ optionsData }) {
                       </summary>
 
                       <div className="space-y-4 border-t border-gray-100 px-5 pb-5 pt-4">
-                        <OptionDesign designData={optionsData?.design} />
+                        <OptionDesign designData={optionsData?.design} state={state} dispatch={dispatch} />
 
-                        <div>
-                          <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                            Sub Design
-                          </label>
+                        <OptionSubDesign subDesignData={optionsData?.subDesign} state={state} dispatch={dispatch} />
 
-                          <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
-                            <option>Select sub design</option>
-                          </select>
-                        </div>
+                        <OptionModel modelData={optionsData?.models} state={state} dispatch={dispatch} />  
 
-                        <div>
-                          <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                            Model
-                          </label>
+                        <OptionShade shadeData={optionsData?.shades} state={state} dispatch={dispatch} />                  
 
-                          <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
-                            <option>Select model</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                            Shade
-                          </label>
-
-                          <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
-                            <option>Select shade</option>
-                          </select>
-                        </div>
+                     
                       </div>
                     </details>
 

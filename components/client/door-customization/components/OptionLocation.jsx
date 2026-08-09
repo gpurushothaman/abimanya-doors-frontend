@@ -1,7 +1,20 @@
 "use client";
+import React, { memo } from "react";
+//Reducer
+import { storeLocation } from "../components/state-handling/root";
 
-export default function OptionLocation({ locationData, state }) {
-  console.log("state:=",state)
+function OptionLocation({ locationData, state, dispatch }) {
+  console.log("state:opt=", state);
+
+  //Store - door location
+  const storeLocationToRootReducer = (e) => {
+    const value = e.target.value;
+    const selectedItem = locationData.find(
+      (item) => item.doorLocationValue === value
+    );
+
+    dispatch(storeLocation(selectedItem));
+  };
   return (
     <details
       open
@@ -26,9 +39,12 @@ export default function OptionLocation({ locationData, state }) {
           Door Location
         </label>
 
-        <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3.5 text-[14px] outline-none transition focus:border-[#198754] focus:bg-white focus:ring-4 focus:ring-[#aaf485]/60">
+        <select
+          onChange={storeLocationToRootReducer}
+          className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3.5 text-[14px] outline-none transition focus:border-[#198754] focus:bg-white focus:ring-4 focus:ring-[#aaf485]/60"
+        >
           <option>Select door location</option>
-          {locationData?.map((item) => (
+          {locationData?.filter((item) => item.status)?.map((item) => (
             <option key={item._id} value={item.doorLocationValue}>
               {item.doorLocationName}
             </option>
@@ -38,3 +54,10 @@ export default function OptionLocation({ locationData, state }) {
     </details>
   );
 }
+
+export default memo(OptionLocation, (prevProps, nextProps) => {
+  return (
+    prevProps.locationData === nextProps.locationData &&
+    prevProps.state.location === nextProps.state.location
+  );
+});
