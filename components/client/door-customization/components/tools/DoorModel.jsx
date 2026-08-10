@@ -11,7 +11,7 @@ export default function DoorModel() {
 
   useEffect(() => {
     scene.traverse((child) => {
-      console.log("child name:=",child);
+      console.log("child name:=", child);
       if (child.name === "wall_") {
         child.visible = false;
       }
@@ -21,8 +21,8 @@ export default function DoorModel() {
   return (
     <primitive
       object={scene}
-      scale={1}
-      position={[0,0,0]}
+      scale={[1.5, 1.11, 1]}
+      position={[0, -0.1, 0.1]}
     />
   );
 }

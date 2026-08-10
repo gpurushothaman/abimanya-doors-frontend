@@ -11,7 +11,7 @@ export default function DoorCanvas() {
     <Canvas
       shadows
       camera={{
-        position: [0, 1.5, 5],
+        position: [0, 0, 4],
         fov: 35,
       }}
       gl={{
