@@ -3,20 +3,22 @@
 import { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export default function DoorModel() {
-
-  const { scene } = useGLTF(
-    "/models/3A.glb"
-  );
+export default function DoorModel({ smartMenuAction }) {
+  const { scene } = useGLTF("/models/3A.glb");
+  console.log("door model")
 
   useEffect(() => {
     scene.traverse((child) => {
       console.log("child name:=", child);
-      if (child.name === "wall_") {
-        child.visible = false;
+      if (child.isMesh) {
+        if (child.name?.includes("_door")) {
+          child.visible = true;
+        } else {
+          child.visible = !smartMenuAction?.doorOnlyStatus;
+        }
       }
     });
-  }, [scene]);
+  }, [scene, smartMenuAction?.doorOnlyStatus]);
 
   return (
     <primitive

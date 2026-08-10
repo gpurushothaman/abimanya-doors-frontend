@@ -15,6 +15,7 @@ import OptionDesign from "./components/OptionDesign";
 import OptionSubDesign from "./components/OptionSubDesign";
 import OptionModel from "./components/OptionModel";
 import OptionShade from "./components/OptionShade";
+import OptionFrame from "./components/OptionFrame";
 //Tools
 import DoorCanvas from "./components/tools/DoorCanvas";
 
@@ -229,22 +230,9 @@ export default function Customize({ optionsData }) {
 
                   <div className="space-y-5 border-t border-gray-100 px-5 pb-5 pt-4">
 
-                    <div>
-
-                      <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                        Frame
-                      </label>
-
-                      <select className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60">
-
-                        <option>Select Frame</option>
-                        <option>No</option>
-                        <option>Half</option>
-                        <option>Full</option>
-
-                      </select>
-
-                    </div>
+                    <OptionFrame  frameData={optionsData?.frames}
+                      state={state}
+                      dispatch={dispatch}/>
 
 
                     {/* WALL DIMENSIONS */}
@@ -720,7 +708,8 @@ export default function Customize({ optionsData }) {
 
           <div className="absolute inset-0">
 
-            <DoorCanvas />
+            <DoorCanvas state={state}
+                      dispatch={dispatch}/>
 
           </div>
 

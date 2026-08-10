@@ -4,7 +4,10 @@ import {
     SELECTED_DESIGN,
     SELECTED_SUBDESIGN,
     SELECTED_MODEL,
-    SELECTED_SHADE
+    SELECTED_SHADE,
+    SET_CANVAS_THEME,
+    VISIBLE_DOOR_ONLY,
+    SELECTED_FRAME
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -41,4 +44,22 @@ export const storeModel = (model) => ({
 export const storeShade = (shade) => ({
   type: SELECTED_SHADE,
   payload: shade
+});
+
+//Store - Canvas theme
+export const storeCanvasTheme = (canvasTheme) => ({
+  type: SET_CANVAS_THEME,
+  payload: canvasTheme
+});
+
+//Store - Visible door only status
+export const storeDoorOnlyStatus = (doorStatus) => ({
+  type: VISIBLE_DOOR_ONLY,
+  payload: doorStatus
+});
+
+//Store - frame
+export const storeFrame = (frame) => ({
+  type: SELECTED_FRAME,
+  payload: frame
 });
