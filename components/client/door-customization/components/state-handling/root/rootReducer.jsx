@@ -8,7 +8,9 @@ import {
   SELECTED_SHADE,
   SET_CANVAS_THEME,
   VISIBLE_DOOR_ONLY,
-  SELECTED_FRAME
+  SELECTED_FRAME,
+  ADJUST_WALL_HEIGHT,
+  ADJUST_WALL_WIDTH,
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -57,7 +59,7 @@ const rootReducer = (state = initialState, action) => {
           canvasBackgroundThemeStatus:
             action.payload.canvasBackgroundThemeStatus,
           canvasBackgroundTheme: action.payload.canvasBackgroundTheme,
-        }
+        },
       };
 
     case VISIBLE_DOOR_ONLY:
@@ -65,15 +67,34 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         smartMenuAction: {
           ...state.smartMenuAction,
-          doorOnlyStatus:
-            action.payload,          
-        }
+          doorOnlyStatus: action.payload,
+        },
       };
 
     case SELECTED_FRAME:
       return {
         ...state,
         frame: action?.payload,
+      };
+
+    case ADJUST_WALL_HEIGHT:
+      return {
+        ...state,
+        wall: {
+          ...state.wall,
+          height: action.payload.height,
+          blendHeight: action.payload.blendHeight,
+        },
+      };
+
+    case ADJUST_WALL_WIDTH:
+      return {
+        ...state,
+        wall: {
+          ...state.wall,
+          width: action.payload.width,
+          blendWidth: action.payload.blendWidth,
+        },
       };
 
     default:

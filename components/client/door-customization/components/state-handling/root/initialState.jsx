@@ -14,6 +14,18 @@ const initialState = {
     canvasBackgroundTheme : {
         dark : "#000000",
         light : "#ffffff"
+    },
+    wall:{
+        width : 600, 
+        height : 2100,
+        blendWidth : 0,
+        blendHeight : Math.max(0, Math.min(1,  (2100 - 1800) / (2400 - 1800))),
+        heightMin : 1800,
+        heightMax : 2400,
+        widthMin : 600,
+        widthMax : 1200,
+        thicknessMax : 260,
+        thicknessMin : 140
     }
 };
 

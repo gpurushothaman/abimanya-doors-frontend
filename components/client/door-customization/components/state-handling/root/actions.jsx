@@ -7,7 +7,9 @@ import {
     SELECTED_SHADE,
     SET_CANVAS_THEME,
     VISIBLE_DOOR_ONLY,
-    SELECTED_FRAME
+    SELECTED_FRAME,
+    ADJUST_WALL_HEIGHT,
+    ADJUST_WALL_WIDTH
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -62,4 +64,16 @@ export const storeDoorOnlyStatus = (doorStatus) => ({
 export const storeFrame = (frame) => ({
   type: SELECTED_FRAME,
   payload: frame
+});
+
+//Store - Adjust wall height
+export const storeAdjustWallHeight = (wallHeight) => ({
+  type: ADJUST_WALL_HEIGHT,
+  payload: wallHeight
+});
+
+//Store - Adjust wall width
+export const storeAdjustWallWidth = (wallWidth) => ({
+  type: ADJUST_WALL_WIDTH,
+  payload: wallWidth
 });

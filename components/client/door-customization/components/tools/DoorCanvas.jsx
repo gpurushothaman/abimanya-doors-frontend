@@ -2,7 +2,11 @@
 
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { Environment, OrbitControls } from "@react-three/drei";
+import {
+  Environment,
+  OrbitControls,
+  PerspectiveCamera,
+} from "@react-three/drei";
 import { Box, Button, Stack } from "@mui/material";
 
 //Component
@@ -18,15 +22,14 @@ export default function DoorCanvas({ state, dispatch }) {
         height: "100%",
       }}
     >
-      <SmartMenu smartMenuAction={state?.smartMenuAction}
-                      dispatch={dispatch}/>
+      <SmartMenu smartMenuAction={state?.smartMenuAction} dispatch={dispatch} />
 
       <Canvas
         shadows
-        camera={{
-          position: [0, 0, 4],
-          fov: 35,
-        }}
+        // camera={{
+        //   position: [0, 0, 4],
+        //   fov: 35,
+        // }}
         gl={{
           antialias: true,
           physicallyCorrectLights: true,
@@ -34,9 +37,21 @@ export default function DoorCanvas({ state, dispatch }) {
           // toneMappingExposure: 1,
         }}
         style={{
-          background: state?.canvasBackgroundTheme[state?.smartMenuAction?.canvasBackgroundTheme],
+          background:
+            state?.canvasBackgroundTheme[
+              state?.smartMenuAction?.canvasBackgroundTheme
+            ],
         }}
       >
+        <PerspectiveCamera
+          makeDefault
+          fov={35}
+          //aspect={window.innerWidth / window.innerHeight}
+          near={0.1}
+          far={20000}
+          position={[0, 0, 5]}
+        />
+
         {/* Base light */}
         <ambientLight intensity={1.2} />
 
@@ -78,8 +93,10 @@ export default function DoorCanvas({ state, dispatch }) {
         {/* HDR reflections */}
         <Environment preset="studio" environmentIntensity={0.5} />
 
-        <DoorModel smartMenuAction={state?.smartMenuAction}
-                      />
+        <DoorModel
+          smartMenuAction={state?.smartMenuAction}
+          wallData={state?.wall}
+        />
 
         <OrbitControls enableDamping />
       </Canvas>
