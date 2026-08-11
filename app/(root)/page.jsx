@@ -11,7 +11,7 @@ import { FullPageWrapper, Section, useFullPage } from "@alvalens/react-fullpage-
 
 // components
 import Button from "@/components/Button";
-import Me from "@/public/image/alvalen-front.webp";
+import Me from "@/public/image/door.webp";
 import MeAbout from "@/public/image/me2.jpg";
 import Setup from "@/public/image/setup.jpg";
 import ProjectAll from "@/public/image/projects.png";
@@ -87,24 +87,24 @@ const MyPage = () => {
 							</div>
 						</div>
 						<motion.h3
-							className="uppercase text-xl mb-3 font-normal text tracking-[.5rem] text-gray-500"
+							className="uppercase text-4xl mb-3 font-bold text tracking-[.5rem] text-[#79c154]"
 							initial={{ x: -100, opacity: 0 }}
 							whileInView={{ x: 0, opacity: 1 }}
 							transition={{
 								delay: 0.2,
 								type: "spring",
 							}}>
-							Alvalen Shafel
+							Abimanaya  Doors
 						</motion.h3>
 						<motion.h1
-							className="text-black text-4xl md:text-6xl lg:text-6xl 2xl:text-8xl font-bold my-2 md:my-5"
+							className="text-black text-4xl font-mono my-2 md:my-5"
 							initial={{ x: -100, opacity: 0 }}
 							whileInView={{ x: 0, opacity: 1 }}
 							transition={{
 								delay: 0.3,
 								type: "spring",
 							}}>
-							Full Stack Software Engineer
+						 Customize your Door
 						</motion.h1>
 						<motion.p
 							className="title text-md 2xl:text-xl mt-4 tracking-wider text-gray-500 leading-[1.7rem]"
@@ -114,34 +114,9 @@ const MyPage = () => {
 								delay: 0.4,
 								type: "spring",
 							}}>
-							Hi! I&rsquo;am Alvalen, A fullstack software
-							engineer specializing in modern Web Development with
-							a growing focus on Artificial Intelligence. I
-							architect scalable, production-ready engines—from
-							high-traffic Java microservices to RAG-powered SaaS
-							platforms.
+							Hi!This is Abimanya door customize site .you can enjoy to modify & customize to enjoy your oredrs
+							Take your alternate customization .
 						</motion.p>
-						<motion.div
-							className="buttons flex flex-row justify-center items-center space-x-4 mt-10"
-							initial={{ x: -100, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							transition={{
-								delay: 0.5,
-								type: "spring",
-							}}>
-							<Button variation="primary">
-								<Link
-									href={"/docs/cv.pdf"}
-									target="_blank"
-									rel="noopener noreferrer"
-									download>
-									Download CV
-								</Link>
-							</Button>
-							<Button variation="secondary">
-								<a href="#contact">Contact Me</a>
-							</Button>
-						</motion.div>
 					</motion.div>
 					<motion.div
 						className="hidden md:flex col-span-1 mx-auto justify-center items-center "

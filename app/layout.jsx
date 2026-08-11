@@ -27,7 +27,7 @@ const jost = Jost({
 
 export const metadata = {
   metadataBase: new URL("https://www.alvalens.my.id"),
-  title: "Alvalens | Portofoliodsdgsdg",
+  title: "Abimanya Customize door",
 
   description:
     "Alvalen, Product-Minded Software Engineer specializing in Next.js, Spring Boot, and AI Solutions. Founder & CTO of Intervyou.",
@@ -51,13 +51,13 @@ export const metadata = {
   openGraph: {
     type: "website",
     url: "https://www.alvalens.my.id",
-    title: "Alvalens | Portofoliodfhdfh",
-    siteName: "Alvalens | Portofolio",
+    title: "Abimanya Customize door",
+    siteName: "Abimanya Customize door",
     description: "My name is Alvalens, This is my portofolio website.",
     images: [
       {
         url: "/og-image-rev.png",
-        alt: "Alvalens Portofolio",
+        alt: "Abimanya Customize door",
         width: 1200,
         height: 630,
       },
