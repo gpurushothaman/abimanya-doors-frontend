@@ -1,7 +1,7 @@
 "use client";
 import React, { memo } from "react";
 //Reducer
-import { storeAdjustWallHeight, storeAdjustWallWidth } from "../components/state-handling/root";
+import { storeAdjustWallHeight, storeAdjustWallWidth, storeAdjustWallThickness } from "../components/state-handling/root";
 
 function AdjustWall({ wallData, dispatch }) {
   console.log("state:wall=", wallData);
@@ -39,6 +39,23 @@ function AdjustWall({ wallData, dispatch }) {
     dispatch(storeAdjustWallWidth(payload));
   };
 
+
+  const handleWallThicknessChange = (e) => {
+    const thickness = Number(e.target.value);
+
+    let blend =
+      (thickness - wallData?.thicknessMin) /
+      (wallData?.thicknessMax - wallData?.thicknessMin);
+
+    let wallBlendThickness = Math.max(0, Math.min(1, blend));
+
+    const payload = {
+      thickness: thickness,
+      blendThickness: wallBlendThickness,
+    };
+    dispatch(storeAdjustWallThickness(payload));
+  };
+
   return (
     <div className="rounded-xl bg-[#f6f8f5] p-4">
       <p className="text-[14px] font-semibold">Wall Dimensions</p>
@@ -62,7 +79,7 @@ function AdjustWall({ wallData, dispatch }) {
           type="range"
           min="1800"
           max="2400"
-          defaultValue="2100"
+          defaultValue={wallData?.height}
           className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-[#198754]"
           onChange={(e) => handleWallHeightChange(e)}
         />
@@ -85,7 +102,7 @@ function AdjustWall({ wallData, dispatch }) {
           type="range"
           min="600"
           max="1200"
-          defaultValue="600"
+          defaultValue={wallData?.width}
           className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-[#198754]"
           onChange={(e) => handleWallWidthChange(e)}
         />
@@ -100,7 +117,7 @@ function AdjustWall({ wallData, dispatch }) {
           <label className="text-[13px] font-medium">Wall Thickness</label>
 
           <span className="text-[12px] font-semibold text-[#198754]">
-            140 mm
+          {wallData?.thickness} mm
           </span>
         </div>
 
@@ -108,8 +125,9 @@ function AdjustWall({ wallData, dispatch }) {
           type="range"
           min="140"
           max="260"
-          defaultValue="140"
+          defaultValue={wallData?.thickness}
           className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-200 accent-[#198754]"
+          onChange={(e) => handleWallThicknessChange(e)}
         />
 
         <p className="mt-2 text-[11px] text-gray-400">140 – 260 mm</p>

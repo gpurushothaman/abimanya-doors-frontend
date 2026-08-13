@@ -11,6 +11,7 @@ import { Box, Button, Stack } from "@mui/material";
 
 //Component
 import DoorModel from "./DoorModel";
+import Model3A from "./Model3A";
 import SmartMenu from "./SmartMenu";
 
 export default function DoorCanvas({ state, dispatch }) {
@@ -93,7 +94,21 @@ export default function DoorCanvas({ state, dispatch }) {
         {/* HDR reflections */}
         <Environment preset="studio" environmentIntensity={0.5} />
 
-        <DoorModel
+        {/* <DoorModel
+          smartMenuAction={state?.smartMenuAction}
+          wallData={state?.wall}
+        /> */}
+
+        <Model3A
+          object={{
+            modelName: "3A",
+            modelPath: "/models/3a.glb",
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1,
+            },
+          }}
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
         />

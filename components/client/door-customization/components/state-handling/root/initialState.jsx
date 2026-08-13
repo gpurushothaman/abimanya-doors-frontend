@@ -16,16 +16,18 @@ const initialState = {
         light : "#ffffff"
     },
     wall:{
-        width : 600, 
+        width : 850, 
         height : 2100,
-        blendWidth : 0,
+        blendWidth : Math.max(0, Math.min(1,  (850 - 600) / (1200 - 600))),
         blendHeight : Math.max(0, Math.min(1,  (2100 - 1800) / (2400 - 1800))),
         heightMin : 1800,
         heightMax : 2400,
         widthMin : 600,
         widthMax : 1200,
         thicknessMax : 260,
-        thicknessMin : 140
+        thicknessMin : 140,
+        thickness : 140,
+        blendThickness : 0
     }
 };
 

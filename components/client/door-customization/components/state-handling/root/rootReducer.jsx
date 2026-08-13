@@ -11,6 +11,7 @@ import {
   SELECTED_FRAME,
   ADJUST_WALL_HEIGHT,
   ADJUST_WALL_WIDTH,
+  ADJUST_WALL_THICKNESS
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -94,6 +95,16 @@ const rootReducer = (state = initialState, action) => {
           ...state.wall,
           width: action.payload.width,
           blendWidth: action.payload.blendWidth,
+        },
+      };
+
+    case ADJUST_WALL_THICKNESS:
+      return {
+        ...state,
+        wall: {
+          ...state.wall,
+          thickness: action.payload.thickness,
+          blendThickness: action.payload.blendThickness,
         },
       };
 
