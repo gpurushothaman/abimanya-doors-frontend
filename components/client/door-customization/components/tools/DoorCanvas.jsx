@@ -1,6 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
+import { useState, useEffect } from "react";
 import * as THREE from "three";
 import {
   Environment,
@@ -15,6 +16,15 @@ import Model3A from "./Model3A";
 import SmartMenu from "./SmartMenu";
 
 export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
+  console.log("Door canvas");
+  const [doorModelPath, setDoorModelPath] = useState("");
+
+  useEffect(() => {
+    if (state?.model?.useCommonModelStatus) {
+      setDoorModelPath(state?.model?.modelPath);
+    }
+  }, [state?.model]);
+
   return (
     <Box
       sx={{
@@ -40,7 +50,7 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
         style={{
           background:
             state?.canvasBackgroundTheme[
-            state?.smartMenuAction?.canvasBackgroundTheme
+              state?.smartMenuAction?.canvasBackgroundTheme
             ],
         }}
       >
@@ -49,11 +59,7 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           fov={35}
           near={0.1}
           far={20000}
-          position={
-            isSidebarOpen
-              ? [0, 0, 5]
-              : [0, 0, 5]
-          }
+          position={isSidebarOpen ? [0, 0, 5] : [0, 0, 5]}
         />
 
         {/* Base light */}
@@ -106,6 +112,7 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           object={{
             modelName: "3A",
             modelPath: "/models/3a.glb",
+            doorPath: doorModelPath,
             scale: {
               x: 1,
               y: 1,
@@ -118,7 +125,6 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           shadeData={state?.shade}
           isSidebarOpen={isSidebarOpen}
         />
-        
 
         <OrbitControls enableDamping />
       </Canvas>

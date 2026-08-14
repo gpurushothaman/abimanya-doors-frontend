@@ -2,17 +2,23 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSidebarOpen }) {
+function Model3A({
+  object,
+  smartMenuAction,
+  wallData,
+  modelData,
+  shadeData,
+  isSidebarOpen,
+}) {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+  const { scene } = useThree();
   //Mesh ref
   const meshRef = useRef({});
   // Main model
   const { scene: mainScene } = useGLTF(object.modelPath);
-
-  // Door model
-  const { scene: doorScene } = useGLTF(object.modelPath);
 
   // Front architrave
   const { scene: frontArchitraveScene } = useGLTF(
@@ -134,11 +140,7 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSi
   // DOOR MODEL
   // --------------------------------------------------
 
-  useEffect(() => {
-    
-  }, [
-    doorScene    
-  ]);
+  // useEffect(() => {}, [doorModelScene]);
 
   // --------------------------------------------------
   // FRONT ARCHITRAVE
@@ -228,6 +230,22 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSi
     console.log("track:", modelData);
   }, [modelData, shadeData]);
 
+  function DoorModel({ doorPath }) {
+    if (!doorPath) return null;
+
+    return <DoorModelLoader doorPath={`${SERVER_URL}/${doorPath}`} />;
+  }
+
+  function DoorModelLoader({ doorPath }) {
+    const { scene: doorScene } = useGLTF(doorPath);
+
+    const doorModelScene = useMemo(() => {
+      return doorScene.clone(true);
+    }, [doorScene]);
+
+    return <primitive object={doorModelScene} />;
+  }
+
   const updateDoorSeamlessTexture = (
     modelMainTexturePath,
     seamlessTexturePath
@@ -247,7 +265,7 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSi
             value.material.needsUpdate = true;
           }
         });
-      } else if(!key.includes("wall"))  {
+      } else if (!key.includes("wall")) {
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load(seamlessTexturePath, function (texture) {
           texture.flipY = false;
@@ -346,13 +364,12 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSi
   };
 
   return (
-    <group  position={[isSidebarOpen ? 0.5 : 0,0,0,]} >
-
-    <primitive object={modelScene} />
-    <primitive object={frontScene} />
-    <primitive object={backScene} />
-
-  </group>
+    <group>
+      <primitive object={modelScene} />
+      <primitive object={frontScene} />
+      <primitive object={backScene} />
+      <DoorModel doorPath={object?.doorPath} />
+    </group>
   );
 }
 
