@@ -4,17 +4,10 @@ import { useEffect, useMemo, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-<<<<<<< HEAD
-function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
-  const wallRef = useRef(null);
-  const frontArchitraveRef = useRef(null);
-  const jambRef = useRef(null);
-=======
-function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
+function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSidebarOpen }) {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   //Mesh ref
   const meshRef = useRef({});
->>>>>>> 9338365de99210c94df2bce518ad4637bfd5c821
   // Main model
   const { scene: mainScene } = useGLTF(object.modelPath);
 

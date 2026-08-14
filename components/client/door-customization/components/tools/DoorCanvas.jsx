@@ -114,13 +114,11 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           }}
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
-<<<<<<< HEAD
-          isSidebarOpen={isSidebarOpen}
-=======
           modelData={state?.model}
           shadeData={state?.shade}
->>>>>>> 9338365de99210c94df2bce518ad4637bfd5c821
+          isSidebarOpen={isSidebarOpen}
         />
+        
 
         <OrbitControls enableDamping />
       </Canvas>
