@@ -111,6 +111,8 @@ export default function DoorCanvas({ state, dispatch }) {
           }}
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
+          modelData={state?.model}
+          shadeData={state?.shade}
         />
 
         <OrbitControls enableDamping />
