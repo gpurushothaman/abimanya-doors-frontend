@@ -4,10 +4,17 @@ import { useEffect, useMemo, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
+<<<<<<< HEAD
 function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
   const wallRef = useRef(null);
   const frontArchitraveRef = useRef(null);
   const jambRef = useRef(null);
+=======
+function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
+  const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+  //Mesh ref
+  const meshRef = useRef({});
+>>>>>>> 9338365de99210c94df2bce518ad4637bfd5c821
   // Main model
   const { scene: mainScene } = useGLTF(object.modelPath);
 
@@ -71,6 +78,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
         child.visible = !smartMenuAction?.doorOnlyStatus;
+        meshRef.current["frame"] = child;
       }
 
       // ---------------------------------------------
@@ -83,6 +91,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
 
         setMorphTarget(child, "width", wallData?.blendWidth ?? 0);
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
+        meshRef.current["door"] = child;
       }
 
       // ---------------------------------------------
@@ -93,7 +102,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
         child.visible = !smartMenuAction?.doorOnlyStatus;
-        jambRef.current = child;
+        meshRef.current["jamb"] = child;
       }
 
       // ---------------------------------------------
@@ -104,6 +113,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
         child.visible = !smartMenuAction?.doorOnlyStatus;
+        meshRef.current["threshold"] = child;
       }
 
       // ---------------------------------------------
@@ -114,7 +124,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
         child.visible = !smartMenuAction?.doorOnlyStatus;
-        wallRef.current = child;
+        meshRef.current["wall"] = child;
       }
     });
   }, [
@@ -152,7 +162,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
         child.visible = !smartMenuAction?.doorOnlyStatus;
-        frontArchitraveRef.current = child;
+        meshRef.current["frontArchitrave"] = child;
       }
     });
   }, [
@@ -190,6 +200,7 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
         setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
         child.visible = !smartMenuAction?.doorOnlyStatus;
+        meshRef.current["backArchitrave"] = child;
       }
     });
   }, [
@@ -203,108 +214,130 @@ function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
     updateWallThickness();
   }, [wallData?.blendThickness]);
 
+  useEffect(() => {
+    updateDoorSeamlessTexture(
+      modelData?.modelMainTexturePath,
+      modelData?.textureData?.[0]?.texturePath
+    );
+    console.log("track:", modelData);
+  }, [modelData, shadeData]);
+
+  const updateDoorSeamlessTexture = (
+    modelMainTexturePath,
+    seamlessTexturePath
+  ) => {
+    modelMainTexturePath = `${SERVER_URL}/${modelMainTexturePath}`;
+    seamlessTexturePath = `${SERVER_URL}/${seamlessTexturePath}`;
+
+    Object.entries(meshRef.current).forEach(([key, value]) => {
+      if (key.includes("door")) {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(modelMainTexturePath, function (texture) {
+          texture.flipY = false;
+          texture.colorSpace = THREE.SRGBColorSpace;
+
+          if (texture && texture.image) {
+            value.material.map = texture;
+            value.material.needsUpdate = true;
+          }
+        });
+      } else if(!key.includes("wall"))  {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(seamlessTexturePath, function (texture) {
+          texture.flipY = false;
+          texture.colorSpace = THREE.SRGBColorSpace;
+
+          if (texture && texture.image) {
+            value.material.map = texture;
+            value.material.needsUpdate = true;
+          }
+        });
+      }
+    });
+  };
 
   const updateWallThickness = () => {
-    const wallMesh = wallRef.current;
-    const frontArchitrave = frontArchitraveRef.current;
-    const jamb = jambRef.current;
-  
+    const wallMesh = meshRef.current["wall"];
+    const frontArchitrave = meshRef.current["frontArchitrave"];
+    const jamb = meshRef.current["jamb"];
+
     if (!wallMesh) return;
-  
+
     // -----------------------------
     // Wall thickness morph
     // -----------------------------
-  
+
     const wallDict = wallMesh.morphTargetDictionary;
-  
+
     if (wallDict?.["_3a_thickness"] !== undefined) {
-      wallMesh.morphTargetInfluences[
-        wallDict["_3a_thickness"]
-      ] = wallData?.blendThickness;
+      wallMesh.morphTargetInfluences[wallDict["_3a_thickness"]] =
+        wallData?.blendThickness;
     }
-  
+
     // -----------------------------
     // Get wall geometry
     // -----------------------------
-  
+
     const geometry = wallMesh.geometry;
-  
+
     const position = geometry.attributes.position;
-  
-    const morphPositions =
-      geometry.morphAttributes.position || [];
-  
-    const influences =
-      wallMesh.morphTargetInfluences || [];
-  
+
+    const morphPositions = geometry.morphAttributes.position || [];
+
+    const influences = wallMesh.morphTargetInfluences || [];
+
     // -----------------------------
     // Calculate bounding box
     // -----------------------------
-  
+
     const box = new THREE.Box3();
-  
+
     const vertex = new THREE.Vector3();
     const morph = new THREE.Vector3();
-  
+
     for (let i = 0; i < position.count; i++) {
-  
       // Base position
       vertex.fromBufferAttribute(position, i);
-  
+
       // Apply morph targets
       for (let j = 0; j < morphPositions.length; j++) {
-  
         const influence = influences[j];
-  
+
         if (influence === 0) continue;
-  
-        morph.fromBufferAttribute(
-          morphPositions[j],
-          i
-        );
-  
-        vertex.addScaledVector(
-          morph,
-          influence
-        );
+
+        morph.fromBufferAttribute(morphPositions[j], i);
+
+        vertex.addScaledVector(morph, influence);
       }
-  
+
       // Convert to world space
-      vertex.applyMatrix4(
-        wallMesh.matrixWorld
-      );
-  
+      vertex.applyMatrix4(wallMesh.matrixWorld);
+
       // Expand bounding box
       box.expandByPoint(vertex);
     }
-  
+
     // -----------------------------
     // Move front architrave
     // -----------------------------
-  
+
     if (frontArchitrave) {
-      frontArchitrave.position.z =
-        box.max.z - 0.07027325675295999;
+      frontArchitrave.position.z = box.max.z - 0.07027325675295999;
     }
-  
+
     // -----------------------------
     // Jamb thickness
     // -----------------------------
-  
+
     if (jamb) {
-      const jambDict =
-        jamb.morphTargetDictionary;
-  
+      const jambDict = jamb.morphTargetDictionary;
+
       if (jambDict?.thickness !== undefined) {
-        jamb.morphTargetInfluences[
-          jambDict.thickness
-        ] = wallData?.blendThickness;
+        jamb.morphTargetInfluences[jambDict.thickness] =
+          wallData?.blendThickness;
       }
     }
   };
-
-
-
 
   return (
     <group  position={[isSidebarOpen ? 0.5 : 0,0,0,]} >

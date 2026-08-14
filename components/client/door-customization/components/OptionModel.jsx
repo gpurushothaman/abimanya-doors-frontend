@@ -37,6 +37,7 @@ function OptionModel({ modelData, state, dispatch }) {
   );
 }
 
+
 export default memo(OptionModel, (prevProps, nextProps) => {
   return (
     prevProps.subDesignData === nextProps.subDesignData &&
