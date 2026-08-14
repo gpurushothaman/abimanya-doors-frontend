@@ -81,12 +81,12 @@ export default function Customize({ optionsData }) {
           aria-label="Open customize options"
           className="
             fixed
-            left-27
-            top-16
+            left-9
+            top-18
             z-50
             flex
-            h-12
-            w-12
+            h-11
+            w-11
             items-center
             justify-center
             rounded-xl
