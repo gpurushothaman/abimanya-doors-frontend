@@ -31,7 +31,7 @@ const Navbar = () => {
 				{/* Logo */}
 				<div>
 					<Link href="/">
-						<Image src="/logo/logo.png" alt="Abimanya Doors" width={190} height={60}  priority/>
+						<Image src="/logo/logo.png" alt="Abimanya Doors" width={150} height={60}  priority/>
 					</Link>
 				</div>
 
