@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
+function Model3A({ object, smartMenuAction, wallData, modelData, shadeData, isSidebarOpen }) {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   //Mesh ref
   const meshRef = useRef({});
@@ -346,15 +346,13 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
   };
 
   return (
-    <>
-      <primitive object={modelScene} />
+    <group  position={[isSidebarOpen ? 0.5 : 0,0,0,]} >
 
-      <primitive object={doorScene} />
+    <primitive object={modelScene} />
+    <primitive object={frontScene} />
+    <primitive object={backScene} />
 
-      <primitive object={frontScene} />
-
-      <primitive object={backScene} />
-    </>
+  </group>
   );
 }
 

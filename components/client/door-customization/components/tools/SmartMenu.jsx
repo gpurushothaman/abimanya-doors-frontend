@@ -65,8 +65,8 @@ function SmartMenu({ smartMenuAction, dispatch }) {
       sx={{
         position: "absolute",
 
-        top: 60,
-        right: 16,
+        top: 70,
+        right: 80,
 
         zIndex: 10,
 
@@ -106,7 +106,7 @@ function SmartMenu({ smartMenuAction, dispatch }) {
             : "1px solid #d9d9d9",
 
           background: isDoorOnly
-            ? "linear-gradient(135deg, #078B50 0%, #087B49 100%)"
+            ? "#48ad15"
             : "#ffffff",
 
           cursor: "pointer",
@@ -137,7 +137,7 @@ function SmartMenu({ smartMenuAction, dispatch }) {
 
             background: isDoorOnly
               ? "#ffffff"
-              : "#078B50",
+              : "#48ad15",
 
             transition:
               "all 180ms ease",
@@ -216,7 +216,7 @@ function SmartMenu({ smartMenuAction, dispatch }) {
             borderRadius: "50%",
 
             background:
-              "linear-gradient(135deg, #078B50 0%, #087B49 100%)",
+              "#48ad15",
 
             boxShadow:
               "0 2px 7px rgba(0, 130, 75, 0.25)",
