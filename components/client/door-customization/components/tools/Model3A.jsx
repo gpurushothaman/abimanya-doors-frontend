@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-function Model3A({ object, smartMenuAction, wallData }) {
+function Model3A({ object, smartMenuAction, wallData, isSidebarOpen }) {
   const wallRef = useRef(null);
   const frontArchitraveRef = useRef(null);
   const jambRef = useRef(null);
@@ -307,13 +307,13 @@ function Model3A({ object, smartMenuAction, wallData }) {
 
 
   return (
-    <>
-      <primitive object={modelScene} />
+    <group  position={[isSidebarOpen ? 0.5 : 0,0,0,]} >
 
-      <primitive object={frontScene} />
+    <primitive object={modelScene} />
+    <primitive object={frontScene} />
+    <primitive object={backScene} />
 
-      <primitive object={backScene} />
-    </>
+  </group>
   );
 }
 

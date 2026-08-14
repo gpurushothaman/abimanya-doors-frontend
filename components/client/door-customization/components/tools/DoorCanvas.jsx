@@ -14,12 +14,12 @@ import DoorModel from "./DoorModel";
 import Model3A from "./Model3A";
 import SmartMenu from "./SmartMenu";
 
-export default function DoorCanvas({ state, dispatch }) {
+export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
   return (
     <Box
       sx={{
         position: "relative",
-        width: "100%",
+        width: "104%",
         height: "100%",
       }}
     >
@@ -40,17 +40,20 @@ export default function DoorCanvas({ state, dispatch }) {
         style={{
           background:
             state?.canvasBackgroundTheme[
-              state?.smartMenuAction?.canvasBackgroundTheme
+            state?.smartMenuAction?.canvasBackgroundTheme
             ],
         }}
       >
         <PerspectiveCamera
           makeDefault
           fov={35}
-          //aspect={window.innerWidth / window.innerHeight}
           near={0.1}
           far={20000}
-          position={[0, 0, 5]}
+          position={
+            isSidebarOpen
+              ? [0, 0, 5]
+              : [0, 0, 5]
+          }
         />
 
         {/* Base light */}
@@ -111,6 +114,7 @@ export default function DoorCanvas({ state, dispatch }) {
           }}
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
+          isSidebarOpen={isSidebarOpen}
         />
 
         <OrbitControls enableDamping />
