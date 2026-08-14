@@ -11,6 +11,9 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
   // Main model
   const { scene: mainScene } = useGLTF(object.modelPath);
 
+  // Door model
+  const { scene: doorScene } = useGLTF(object.modelPath);
+
   // Front architrave
   const { scene: frontArchitraveScene } = useGLTF(
     "/models/3ab_architrave_front.glb"
@@ -125,6 +128,16 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
     smartMenuAction?.doorOnlyStatus,
     wallData?.blendWidth,
     wallData?.blendHeight,
+  ]);
+
+  // --------------------------------------------------
+  // DOOR MODEL
+  // --------------------------------------------------
+
+  useEffect(() => {
+    
+  }, [
+    doorScene    
   ]);
 
   // --------------------------------------------------
@@ -335,6 +348,8 @@ function Model3A({ object, smartMenuAction, wallData, modelData, shadeData }) {
   return (
     <>
       <primitive object={modelScene} />
+
+      <primitive object={doorScene} />
 
       <primitive object={frontScene} />
 
