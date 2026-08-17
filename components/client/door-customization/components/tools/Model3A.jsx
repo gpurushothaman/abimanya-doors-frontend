@@ -20,9 +20,9 @@ const DoorModel = React.memo(function DoorModel({
     return null;
   }
 
-  if (useCommonModelStatus && !modelPath) {
-    return null;
-  }
+  // if (useCommonModelStatus && !modelPath) {
+  //   return null;
+  // }
 
   return <DoorModelLoader modelPath={modelPath} modelValue={modelValue} />;
 });
@@ -36,6 +36,7 @@ const DoorModelLoader = React.memo(function DoorModelLoader({
   modelValue,
 }) {
   console.log("RENDER DoorModelLoader");
+  const { scene } = useThree();
   // Hooks must always run
   const { scene: doorScene } = useGLTF(`${SERVER_URL}/${modelPath}`);
 
