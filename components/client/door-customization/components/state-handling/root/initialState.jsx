@@ -28,7 +28,8 @@ const initialState = {
         thicknessMin : 140,
         thickness : 140,
         blendThickness : 0
-    }
+    },
+    door:null
 };
 
 export default initialState;

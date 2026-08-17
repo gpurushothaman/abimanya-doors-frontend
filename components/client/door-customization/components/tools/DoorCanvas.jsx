@@ -15,13 +15,14 @@ import DoorModel from "./DoorModel";
 import Model3A from "./Model3A";
 import SmartMenu from "./SmartMenu";
 
-export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
+export default function DoorCanvas({ state, dispatch }) {
   console.log("Door canvas");
-  const [doorModelPath, setDoorModelPath] = useState("");
+  const [doorModelData, setDoorModelData] = useState("");
 
   useEffect(() => {
     if (state?.model?.useCommonModelStatus) {
-      setDoorModelPath(state?.model?.modelPath);
+      console.log("model:",state?.model)
+      setDoorModelData(state?.model);
     }
   }, [state?.model]);
 
@@ -59,7 +60,7 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           fov={35}
           near={0.1}
           far={20000}
-          position={isSidebarOpen ? [0, 0, 5] : [0, 0, 5]}
+          position={[0, 0, 5]}
         />
 
         {/* Base light */}
@@ -112,7 +113,7 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           object={{
             modelName: "3A",
             modelPath: "/models/3a.glb",
-            doorPath: doorModelPath,
+            doorData: doorModelData,
             scale: {
               x: 1,
               y: 1,
@@ -122,8 +123,7 @@ export default function DoorCanvas({ state, dispatch, isSidebarOpen }) {
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
           modelData={state?.model}
-          shadeData={state?.shade}
-          isSidebarOpen={isSidebarOpen}
+          shadeData={state?.shade}       
         />
 
         <OrbitControls enableDamping />

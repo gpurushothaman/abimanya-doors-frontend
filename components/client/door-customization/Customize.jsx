@@ -64,8 +64,7 @@ export default function Customize({ optionsData }) {
       <section className="absolute inset-0 z-0 min-h-0 min-w-0 overflow-hidden">
         <DoorCanvas
           state={state}
-          dispatch={dispatch}
-          isSidebarOpen={isSidebarOpen}
+          dispatch={dispatch}         
         />
       </section>
 
