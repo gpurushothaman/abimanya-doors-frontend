@@ -11,7 +11,7 @@ function OptionModel({ modelData, state, dispatch }) {
     const selectedItem = modelData.find(
       (item) => item.modelValue === value
     );
-
+  
     dispatch(storeModel(selectedItem));
   };
   return (

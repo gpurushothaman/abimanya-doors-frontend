@@ -15,10 +15,27 @@ const DoorModel = React.memo(function DoorModel({
   modelPath,
   modelValue,
   useCommonModelStatus,
+  selectedPreviousModelData,
+  defaultDoor
 }) {
+  const { scene } = useThree();
   if (!modelPath) {
     return null;
   }
+
+  if(modelPath){
+console.log("modelpath:=",modelPath,selectedPreviousModelData?.modelValue)
+
+    if(selectedPreviousModelData === "default"){
+      defaultDoor.visible = false;
+    }else{
+      const doorModel = scene.getObjectByName(selectedPreviousModelData?.modelValue);
+      if(doorModel){
+      doorModel.visible = false;
+      }
+    }
+  }
+  //modelValue
 
   // if (useCommonModelStatus && !modelPath) {
   //   return null;
@@ -47,10 +64,11 @@ const DoorModelLoader = React.memo(function DoorModelLoader({
     if (doorModel) {
       return null;
     }
-    console.log("CLONING MODEL:", modelValue);
+    console.log("CLONING MODEL:", `${SERVER_URL}/${modelPath}`);
     // Doesn't exist → this is a new model
     const clonedScene = doorScene.clone(true);
     clonedScene.name = modelValue;
+    console.log("gjhgjhjhjhj:=",clonedScene)
 
     return clonedScene;
   }, [doorScene, modelValue, doorModel]);
@@ -73,9 +91,10 @@ const Model3A = React.memo(
     smartMenuAction,
     wallData,
     modelData,
-    shadeData,
+    selectedPreviousModelData,
+    shadeData  
   }) {
-    console.log("RENDER Model3A");
+    console.log("RENDER Model3A",selectedPreviousModelData);
 
     const meshRef = useRef({});
 
@@ -197,7 +216,7 @@ const Model3A = React.memo(
         else if (child.name === "_3a_threshold") {
           setMorphTarget(child, "width", wallData?.blendWidth ?? 0);
 
-          setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
+          //setMorphTarget(child, "height", wallData?.blendHeight ?? 0);
 
           child.visible = !smartMenuAction?.doorOnlyStatus;
 
@@ -482,6 +501,8 @@ const Model3A = React.memo(
           modelPath={modelData?.modelPath}
           modelValue={modelData?.modelValue}
           useCommonModelStatus={modelData?.useCommonModelStatus}
+          selectedPreviousModelData={selectedPreviousModelData}
+          defaultDoor={meshRef.current.door}
         />
       </group>
     );

@@ -12,7 +12,7 @@ import { Box, Button, Stack } from "@mui/material";
 
 //Component
 import DoorModel from "./DoorModel";
-import Model3A from "./Model3A";
+import Model3A from "./M3A/Model3A";
 import SmartMenu from "./SmartMenu";
 
 export default function DoorCanvas({ state, dispatch }) {
@@ -112,8 +112,7 @@ export default function DoorCanvas({ state, dispatch }) {
         <Model3A
           object={{
             modelName: "3A",
-            modelPath: "/models/3a.glb",
-            doorData: doorModelData,
+            modelPath: "/models/3a.glb",       
             scale: {
               x: 1,
               y: 1,
@@ -123,6 +122,7 @@ export default function DoorCanvas({ state, dispatch }) {
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
           modelData={state?.model}
+          selectedPreviousModelData={state?.selectedPreviousModel}
           shadeData={state?.shade}       
         />
 

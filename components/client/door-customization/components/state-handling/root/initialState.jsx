@@ -29,7 +29,7 @@ const initialState = {
         thickness : 140,
         blendThickness : 0
     },
-    door:null
+    selectedPreviousModel:"default"
 };
 
 export default initialState;

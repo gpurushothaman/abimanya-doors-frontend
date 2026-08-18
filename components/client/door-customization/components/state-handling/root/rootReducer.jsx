@@ -40,12 +40,13 @@ const rootReducer = (state = initialState, action) => {
         subDesign: action?.payload,
       };
 
-    case SELECTED_MODEL:
+    case SELECTED_MODEL:  
       return {
         ...state,
         model: action?.payload,
+        selectedPreviousModel: (state?.model && state?.model?.modelPath) ? state?.model :"default"
       };
-
+    
     case SELECTED_SHADE:
       return {
         ...state,
