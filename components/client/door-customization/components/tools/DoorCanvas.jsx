@@ -1,5 +1,6 @@
 "use client";
 
+import React, {  useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useState, useEffect } from "react";
 import * as THREE from "three";
@@ -15,16 +16,26 @@ import DoorModel from "./DoorModel";
 import Model3A from "./M3A/Model3A";
 import SmartMenu from "./SmartMenu";
 
+
+
 export default function DoorCanvas({ state, dispatch }) {
   console.log("Door canvas");
-  const [doorModelData, setDoorModelData] = useState("");
+  
 
-  useEffect(() => {
-    if (state?.model?.useCommonModelStatus) {
-      console.log("model:",state?.model)
-      setDoorModelData(state?.model);
-    }
-  }, [state?.model]);
+  const model3AObject = useMemo(
+    () => ({
+      modelName: "3A",
+      modelPath: "/models/3a.glb",
+      scale: {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+    }),
+    []
+  );
+
+  
 
   return (
     <Box
@@ -110,15 +121,7 @@ export default function DoorCanvas({ state, dispatch }) {
         /> */}
 
         <Model3A
-          object={{
-            modelName: "3A",
-            modelPath: "/models/3a.glb",       
-            scale: {
-              x: 1,
-              y: 1,
-              z: 1,
-            },
-          }}
+          object={model3AObject}
           smartMenuAction={state?.smartMenuAction}
           wallData={state?.wall}
           modelData={state?.model}

@@ -1,7 +1,7 @@
 "use client";
 import React, { memo } from "react";
 //Reducer
-import { storeModel } from "../components/state-handling/root";
+import { storeShade } from "../components/state-handling/root";
 
 function OptionShade({ shadeData, state, dispatch }) {
   console.log("state:shades=", shadeData);
@@ -12,7 +12,7 @@ function OptionShade({ shadeData, state, dispatch }) {
       (item) => item._id === value
     );
 
-    dispatch(storeModel(selectedItem));
+    dispatch(storeShade(selectedItem));
   };
   return (
     <div>

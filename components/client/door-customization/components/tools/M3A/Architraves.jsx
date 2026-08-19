@@ -5,10 +5,10 @@ import { useGLTF } from "@react-three/drei";
 
 const Architraves = React.memo(function Architraves({
   object,
-  smartMenuAction,
-  wallData,
   meshRef
 }) {
+
+    console.log("Architrave")
   const { scene: frontArchitraveScene } =
     useGLTF("/models/3ab_architrave_front.glb");
 
@@ -41,20 +41,6 @@ const Architraves = React.memo(function Architraves({
       child.receiveShadow = true;
 
       if (child.name === "_3a_b_architrave_front") {
-        setMorphTarget(
-          child,
-          "width",
-          wallData?.blendWidth ?? 0
-        );
-
-        setMorphTarget(
-          child,
-          "height",
-          wallData?.blendHeight ?? 0
-        );
-
-        child.visible =
-          !smartMenuAction?.doorOnlyStatus;
           meshRef.current.frontArchitrave = child;
       }
     });
@@ -62,10 +48,7 @@ const Architraves = React.memo(function Architraves({
     frontScene,
     object?.scale?.x,
     object?.scale?.y,
-    object?.scale?.z,
-    smartMenuAction?.doorOnlyStatus,
-    wallData?.blendWidth,
-    wallData?.blendHeight,
+    object?.scale?.z  
   ]);
 
   useEffect(() => {
@@ -83,21 +66,7 @@ const Architraves = React.memo(function Architraves({
       child.castShadow = true;
       child.receiveShadow = true;
 
-      if (child.name === "_3a_b_architrave_back") {
-        setMorphTarget(
-          child,
-          "width",
-          wallData?.blendWidth ?? 0
-        );
-
-        setMorphTarget(
-          child,
-          "height",
-          wallData?.blendHeight ?? 0
-        );
-
-        child.visible =
-          !smartMenuAction?.doorOnlyStatus;
+      if (child.name === "_3a_b_architrave_back") {    
           meshRef.current.backArchitrave = child;
       }
     });
@@ -105,10 +74,7 @@ const Architraves = React.memo(function Architraves({
     backScene,
     object?.scale?.x,
     object?.scale?.y,
-    object?.scale?.z,
-    smartMenuAction?.doorOnlyStatus,
-    wallData?.blendWidth,
-    wallData?.blendHeight,
+    object?.scale?.z
   ]);
 
   return (
@@ -118,21 +84,5 @@ const Architraves = React.memo(function Architraves({
     </>
   );
 });
-
-function setMorphTarget(mesh, targetName, value) {
-  if (
-    !mesh.morphTargetDictionary ||
-    !mesh.morphTargetInfluences
-  ) {
-    return;
-  }
-
-  const index =
-    mesh.morphTargetDictionary[targetName];
-
-  if (index === undefined) return;
-
-  mesh.morphTargetInfluences[index] = value;
-}
 
 export default Architraves;
