@@ -10,7 +10,10 @@ import {
     SELECTED_FRAME,
     ADJUST_WALL_HEIGHT,
     ADJUST_WALL_WIDTH,
-    ADJUST_WALL_THICKNESS
+    ADJUST_WALL_THICKNESS,
+    SELECTED_FRAME_TYPE,
+    SELECTED_FRAME_TYPE_OPTION,
+    SELECTED_FRAME_SECTION
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -83,4 +86,22 @@ export const storeAdjustWallWidth = (wallWidth) => ({
 export const storeAdjustWallThickness = (wallThickness) => ({
   type: ADJUST_WALL_THICKNESS,
   payload: wallThickness
+});
+
+//Store - frame type
+export const storeFrameType = (frameType) => ({
+  type: SELECTED_FRAME_TYPE,
+  payload: frameType
+});
+
+//Store - frame type option
+export const storeFrameTypeOption = (frameTypeOption) => ({
+  type: SELECTED_FRAME_TYPE_OPTION,
+  payload: frameTypeOption
+});
+
+//Store - frame section
+export const storeFrameSection = (frameSection) => ({
+  type: SELECTED_FRAME_SECTION,
+  payload: frameSection
 });

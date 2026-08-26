@@ -11,7 +11,10 @@ import {
   SELECTED_FRAME,
   ADJUST_WALL_HEIGHT,
   ADJUST_WALL_WIDTH,
-  ADJUST_WALL_THICKNESS
+  ADJUST_WALL_THICKNESS,
+  SELECTED_FRAME_TYPE,
+  SELECTED_FRAME_TYPE_OPTION,
+  SELECTED_FRAME_SECTION
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -107,6 +110,24 @@ const rootReducer = (state = initialState, action) => {
           thickness: action.payload.thickness,
           blendThickness: action.payload.blendThickness,
         },
+      };
+
+    case SELECTED_FRAME_TYPE:
+      return {
+        ...state,
+        frameType: action?.payload,
+      };
+
+    case SELECTED_FRAME_TYPE_OPTION:
+      return {
+        ...state,
+        frameTypeOption: action?.payload,
+      };
+
+    case SELECTED_FRAME_SECTION:
+      return {
+        ...state,
+        frameSection: action?.payload,
       };
 
     default:

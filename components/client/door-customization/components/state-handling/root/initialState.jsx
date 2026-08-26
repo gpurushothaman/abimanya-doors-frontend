@@ -6,6 +6,9 @@ const initialState = {
     model: null,
     shade: null,
     frame: null,
+    frameType: null,
+    frameTypeOption : null,
+    frameSection : null,
     smartMenuAction: {
         doorOnlyStatus : true,
         canvasBackgroundThemeStatus : false,
