@@ -9,6 +9,9 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
     wallData,
     modelPath,
     modelValue,
+    frameSectionData,
+    selectedPreviousFrameSectionData,
+    jambLocationData,
   }) {
     console.log("Adjust height width");
 
@@ -22,6 +25,70 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
       if (!meshRef?.current) return;
       updateWallThickness(meshRef.current, wallData?.blendThickness);
     }, [wallData?.blendThickness]);
+
+    // FRAME SECTION
+    useEffect(() => {
+      if (!meshRef?.current) return;
+      adjustFrameSection(meshRef.current);
+    }, [frameSectionData]);
+
+    // ==========================================
+    // Adjust ( Frame Section )
+    // ==========================================
+
+    function adjustFrameSection(meshes) {
+      let thresholdDictName = null;
+      let framesectionDictName = null;
+
+      //Reset
+      if (selectedPreviousFrameSectionData) {
+        if (jambLocationData === "front") {
+          //3A
+          framesectionDictName =
+            selectedPreviousFrameSectionData?.frameSectionValue;
+          thresholdDictName =
+            selectedPreviousFrameSectionData?.frameSectionValue?.replace(
+              "_F",
+              "_T"
+            );
+        } else {
+          //3B
+          framesectionDictName =
+            selectedPreviousFrameSectionData?.frameSectionValue?.replace(
+              "_3a",
+              "_3b"
+            );
+          thresholdDictName =
+            selectedPreviousFrameSectionData?.frameSectionValue
+              ?.replace("_F", "_T")
+              ?.replace("_3a", "_3b");
+        }
+
+        setMorphTarget(meshes.frame, framesectionDictName, 0);
+        setMorphTarget(meshes.threshold, thresholdDictName, 0);
+      }
+
+      if (jambLocationData === "front") {
+        //3A
+        framesectionDictName = frameSectionData?.frameSectionValue;
+        thresholdDictName = frameSectionData?.frameSectionValue?.replace(
+          "_F",
+          "_T"
+        );
+      } else {
+        //3B
+        framesectionDictName = frameSectionData?.frameSectionValue?.replace(
+          "_3a",
+          "_3b"
+        );
+        thresholdDictName = frameSectionData?.frameSectionValue
+          ?.replace("_F", "_T")
+          ?.replace("_3a", "_3b");
+      }
+
+      setMorphTarget(meshes.frame, framesectionDictName, 1);
+      setMorphTarget(meshes.threshold, thresholdDictName, 1);
+    }
 
     // ==========================================
     // Adjust ( height / width / Thickness )

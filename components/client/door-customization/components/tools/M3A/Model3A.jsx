@@ -12,10 +12,14 @@ import AdjustHeightWidthThicknessApplyToModel from "./AdjustHeightWidthThickness
 const Model3A = React.memo(function Model3A({
   object,
   smartMenuAction,
+  thresholdStatus,
   wallData,
   modelData,
   selectedPreviousModelData,
   shadeData,
+  frameSectionData,
+  selectedPreviousFrameSectionData,
+  jambLocationData
 }) {
   const meshRef = useRef({});
   return (
@@ -33,6 +37,7 @@ const Model3A = React.memo(function Model3A({
       <SmartMenuActionsApplyToModel
         meshRef={meshRef}
         doorOnlyStatus={smartMenuAction?.doorOnlyStatus}
+        thresholdStatus={thresholdStatus}
       />
 
       <AdjustHeightWidthThicknessApplyToModel
@@ -40,6 +45,9 @@ const Model3A = React.memo(function Model3A({
         wallData={wallData}
         modelPath={modelData?.modelPath}
         modelValue={modelData?.modelValue}
+        frameSectionData={frameSectionData}
+        selectedPreviousFrameSectionData={selectedPreviousFrameSectionData}
+        jambLocationData={jambLocationData}
       />
 
       <DoorTextures

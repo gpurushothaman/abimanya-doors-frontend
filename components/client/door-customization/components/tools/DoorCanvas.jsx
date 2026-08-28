@@ -123,10 +123,14 @@ export default function DoorCanvas({ state, dispatch }) {
         <Model3A
           object={model3AObject}
           smartMenuAction={state?.smartMenuAction}
+          thresholdStatus={state?.threshold?.thresholdValue === "yes" ? true : false}
           wallData={state?.wall}
           modelData={state?.model}
           selectedPreviousModelData={state?.selectedPreviousModel}
-          shadeData={state?.shade}       
+          shadeData={state?.shade}     
+          frameSectionData={state?.frameSection}  
+          selectedPreviousFrameSectionData={state?.selectedPreviousFrameSection}  
+          jambLocationData={state?.jambLocation}
         />
 
         <OrbitControls enableDamping />

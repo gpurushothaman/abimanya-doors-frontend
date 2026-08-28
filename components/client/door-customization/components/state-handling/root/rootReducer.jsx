@@ -14,7 +14,8 @@ import {
   ADJUST_WALL_THICKNESS,
   SELECTED_FRAME_TYPE,
   SELECTED_FRAME_TYPE_OPTION,
-  SELECTED_FRAME_SECTION
+  SELECTED_FRAME_SECTION,
+  SELECTED_THRESHOLD
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -128,6 +129,13 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         frameSection: action?.payload,
+        selectedPreviousFrameSection: (state?.frameSection && state?.frameSection?.frameSectionValue) ? state?.frameSection : action?.payload
+      };
+
+    case SELECTED_THRESHOLD:
+      return {
+        ...state,
+        threshold: action?.payload,
       };
 
     default:

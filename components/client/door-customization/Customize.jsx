@@ -21,6 +21,7 @@ import AdjustWall from "./components/AdjustWall";
 import OptionFrameType from "./components/OptionFrameType";
 import OptionFrameTypeOption from "./components/OptionFrameTypeOption";
 import OptionFrameSection from "./components/OptionFrameSection";
+import OptionThreshold from "./components/OptionThreshold";
 
 // Tools
 import DoorCanvas from "./components/tools/DoorCanvas";
@@ -428,32 +429,11 @@ export default function Customize({ optionsData }) {
                     </svg>
                   </summary>
 
-                  <div className="border-t border-gray-100 px-5 pb-5 pt-4">
-                    <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                      Threshold
-                    </label>
-
-                    <select
-                      className="
-                        w-full
-                        rounded-xl
-                        border
-                        border-gray-200
-                        bg-[#fafafa]
-                        px-4
-                        py-3
-                        text-[14px]
-                        outline-none
-                        focus:border-[#198754]
-                        focus:ring-4
-                        focus:ring-[#aaf485]/60
-                      "
-                    >
-                      <option>Select Threshold</option>
-                      <option>Yes</option>
-                      <option>No</option>
-                    </select>
-                  </div>
+                  <OptionThreshold
+                    thresholdData={optionsData?.DoorThresholds}
+                    state={state}
+                    dispatch={dispatch}
+                  />
                 </details>
 
                 {/* =================================================

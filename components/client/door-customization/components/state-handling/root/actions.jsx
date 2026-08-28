@@ -13,7 +13,8 @@ import {
     ADJUST_WALL_THICKNESS,
     SELECTED_FRAME_TYPE,
     SELECTED_FRAME_TYPE_OPTION,
-    SELECTED_FRAME_SECTION
+    SELECTED_FRAME_SECTION,
+    SELECTED_THRESHOLD
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -104,4 +105,10 @@ export const storeFrameTypeOption = (frameTypeOption) => ({
 export const storeFrameSection = (frameSection) => ({
   type: SELECTED_FRAME_SECTION,
   payload: frameSection
+});
+
+//Store - threshold
+export const storeThreshold = (threshold) => ({
+  type: SELECTED_THRESHOLD,
+  payload: threshold
 });
