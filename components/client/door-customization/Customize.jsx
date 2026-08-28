@@ -22,6 +22,7 @@ import OptionFrameType from "./components/OptionFrameType";
 import OptionFrameTypeOption from "./components/OptionFrameTypeOption";
 import OptionFrameSection from "./components/OptionFrameSection";
 import OptionThreshold from "./components/OptionThreshold";
+import OptionDoorThickness from "./components/OptionDoorThickness";
 
 // Tools
 import DoorCanvas from "./components/tools/DoorCanvas";
@@ -430,7 +431,7 @@ export default function Customize({ optionsData }) {
                   </summary>
 
                   <OptionThreshold
-                    thresholdData={optionsData?.DoorThresholds}
+                    thresholdData={optionsData?.doorThresholds}
                     state={state}
                     dispatch={dispatch}
                   />
@@ -724,36 +725,12 @@ export default function Customize({ optionsData }) {
                   />
                 </svg>
               </summary>
-
-              <div className="border-t border-gray-100 p-5">
-                <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                  Door Thickness
-                </label>
-
-                <select
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-gray-200
-                    bg-[#fafafa]
-                    px-4
-                    py-3
-                    text-[14px]
-                    outline-none
-                    focus:border-[#198754]
-                    focus:ring-4
-                    focus:ring-[#aaf485]/60
-                  "
-                >
-                  <option>Select Door Thickness</option>
-                  <option>32 mm</option>
-                  <option>35 mm</option>
-                  <option>38 mm</option>
-                  <option>40 mm</option>
-                  <option>45 mm</option>
-                  <option>50 mm</option>
-                </select>
+              <div className="space-y-4 border-t border-gray-100 p-5">
+                <OptionDoorThickness
+                  doorThicknessData={optionsData?.doorThicknessDatas}
+                  state={state}
+                  dispatch={dispatch}
+                />
               </div>
             </details>
 

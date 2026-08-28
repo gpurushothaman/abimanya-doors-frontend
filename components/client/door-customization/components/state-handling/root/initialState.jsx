@@ -11,6 +11,7 @@ const initialState = {
     frameSection : null,
     threshold : null,
     jambLocation: "front",
+    doorThickness: null,
     smartMenuAction: {
         doorOnlyStatus : true,
         canvasBackgroundThemeStatus : false,
@@ -35,7 +36,8 @@ const initialState = {
         blendThickness : 0
     },
     selectedPreviousModel:"default",
-    selectedPreviousFrameSection : null
+    selectedPreviousFrameSection : null,
+    selectedDoorThickness : null
 };
 
 export default initialState;

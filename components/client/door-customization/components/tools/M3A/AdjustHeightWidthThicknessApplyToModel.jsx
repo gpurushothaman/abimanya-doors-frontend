@@ -12,6 +12,8 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
     frameSectionData,
     selectedPreviousFrameSectionData,
     jambLocationData,
+    doorThicknessData,
+    selectedPreviousDoorThicknessData,
   }) {
     console.log("Adjust height width");
 
@@ -31,6 +33,51 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
       if (!meshRef?.current) return;
       adjustFrameSection(meshRef.current);
     }, [frameSectionData]);
+
+    // DOOR THICKNESS
+    useEffect(() => {
+      if (!meshRef?.current) return;
+      adjustDoorThickness(meshRef.current);
+    }, [doorThicknessData]);
+
+    // ==========================================
+    // Adjust ( Door Thickness )
+    // ==========================================
+
+    function adjustDoorThickness(meshes) {
+      //Reset
+      if (selectedPreviousDoorThicknessData) {
+        setMorphTarget(
+          meshes[modelValue] || meshes.door,
+          selectedPreviousDoorThicknessData?.DoorThicknessValue,
+          0
+        );
+        setMorphTarget(
+          meshes.frame,
+          selectedPreviousDoorThicknessData?.DoorThicknessValue,
+          0
+        );
+        setMorphTarget(
+          meshes.threshold,
+          selectedPreviousDoorThicknessData?.DoorThicknessValue,
+          0
+        );
+      }
+      if (doorThicknessData?.DoorThicknessValue !== "DT_32") {
+        //Apply door thickness to ( frame and threshold )
+        setMorphTarget(meshes.frame, doorThicknessData?.DoorThicknessValue, 1);
+        setMorphTarget(
+          meshes.threshold,
+          doorThicknessData?.DoorThicknessValue,
+          1
+        );
+        setMorphTarget(
+          meshes[modelValue] || meshes.door,
+          doorThicknessData?.DoorThicknessValue,
+          1
+        );
+      }
+    }
 
     // ==========================================
     // Adjust ( Frame Section )
@@ -152,7 +199,7 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
     }
 
     function setMorphTarget(mesh, targetName, value) {
-      if (!mesh.morphTargetDictionary || !mesh.morphTargetInfluences) {
+      if (!mesh?.morphTargetDictionary || !mesh?.morphTargetInfluences) {
         return;
       }
 

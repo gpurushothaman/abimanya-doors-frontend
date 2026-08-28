@@ -19,7 +19,9 @@ const Model3A = React.memo(function Model3A({
   shadeData,
   frameSectionData,
   selectedPreviousFrameSectionData,
-  jambLocationData
+  jambLocationData,
+  doorThicknessData,
+  selectedPreviousDoorThicknessData
 }) {
   const meshRef = useRef({});
   return (
@@ -48,6 +50,8 @@ const Model3A = React.memo(function Model3A({
         frameSectionData={frameSectionData}
         selectedPreviousFrameSectionData={selectedPreviousFrameSectionData}
         jambLocationData={jambLocationData}
+        doorThicknessData={doorThicknessData}
+        selectedPreviousDoorThicknessData={selectedPreviousDoorThicknessData}
       />
 
       <DoorTextures

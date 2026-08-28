@@ -14,7 +14,8 @@ import {
     SELECTED_FRAME_TYPE,
     SELECTED_FRAME_TYPE_OPTION,
     SELECTED_FRAME_SECTION,
-    SELECTED_THRESHOLD
+    SELECTED_THRESHOLD,
+    SELECTED_DOOR_THICKNESS
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -111,4 +112,10 @@ export const storeFrameSection = (frameSection) => ({
 export const storeThreshold = (threshold) => ({
   type: SELECTED_THRESHOLD,
   payload: threshold
+});
+
+//Store - door thickness
+export const storeDoorThickness = (thickness) => ({
+  type: SELECTED_DOOR_THICKNESS,
+  payload: thickness
 });

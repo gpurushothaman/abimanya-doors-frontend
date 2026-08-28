@@ -15,7 +15,8 @@ import {
   SELECTED_FRAME_TYPE,
   SELECTED_FRAME_TYPE_OPTION,
   SELECTED_FRAME_SECTION,
-  SELECTED_THRESHOLD
+  SELECTED_THRESHOLD,
+  SELECTED_DOOR_THICKNESS
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -136,6 +137,13 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         threshold: action?.payload,
+      };
+
+    case SELECTED_DOOR_THICKNESS:
+      return {
+        ...state,
+        doorThickness: action?.payload,
+        selectedDoorThickness: (state?.doorThickness && state?.doorThickness?.DoorThicknessValue) ? state?.doorThickness : action?.payload
       };
 
     default:

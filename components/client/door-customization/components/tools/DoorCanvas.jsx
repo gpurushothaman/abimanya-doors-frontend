@@ -131,6 +131,8 @@ export default function DoorCanvas({ state, dispatch }) {
           frameSectionData={state?.frameSection}  
           selectedPreviousFrameSectionData={state?.selectedPreviousFrameSection}  
           jambLocationData={state?.jambLocation}
+          doorThicknessData={state?.doorThickness}  
+          selectedPreviousDoorThicknessData={state?.selectedDoorThickness}  
         />
 
         <OrbitControls enableDamping />
