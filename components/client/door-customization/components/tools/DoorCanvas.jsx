@@ -1,8 +1,7 @@
 "use client";
 
-import React, {  useMemo } from "react";
+import React, { useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
-import { useState, useEffect } from "react";
 import * as THREE from "three";
 import {
   Environment,
@@ -12,15 +11,11 @@ import {
 import { Box, Button, Stack } from "@mui/material";
 
 //Component
-import DoorModel from "./DoorModel";
 import Model3A from "./M3A/Model3A";
 import SmartMenu from "./SmartMenu";
 
-
-
 export default function DoorCanvas({ state, dispatch }) {
   console.log("Door canvas");
-  
 
   const model3AObject = useMemo(
     () => ({
@@ -34,8 +29,6 @@ export default function DoorCanvas({ state, dispatch }) {
     }),
     []
   );
-
-  
 
   return (
     <Box
@@ -115,24 +108,21 @@ export default function DoorCanvas({ state, dispatch }) {
         {/* HDR reflections */}
         <Environment preset="studio" environmentIntensity={0.5} />
 
-        {/* <DoorModel
-          smartMenuAction={state?.smartMenuAction}
-          wallData={state?.wall}
-        /> */}
-
         <Model3A
           object={model3AObject}
           smartMenuAction={state?.smartMenuAction}
-          thresholdStatus={state?.threshold?.thresholdValue === "yes" ? true : false}
+          thresholdStatus={
+            state?.threshold?.thresholdValue === "yes" ? true : false
+          }
           wallData={state?.wall}
           modelData={state?.model}
           selectedPreviousModelData={state?.selectedPreviousModel}
-          shadeData={state?.shade}     
-          frameSectionData={state?.frameSection}  
-          selectedPreviousFrameSectionData={state?.selectedPreviousFrameSection}  
+          shadeData={state?.shade}
+          frameSectionData={state?.frameSection}
+          selectedPreviousFrameSectionData={state?.selectedPreviousFrameSection}
           jambLocationData={state?.jambLocation}
-          doorThicknessData={state?.doorThickness}  
-          selectedPreviousDoorThicknessData={state?.selectedDoorThickness}  
+          doorThicknessData={state?.doorThickness}
+          selectedPreviousDoorThicknessData={state?.selectedDoorThickness}
         />
 
         <OrbitControls enableDamping />

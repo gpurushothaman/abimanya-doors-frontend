@@ -16,7 +16,11 @@ import {
   SELECTED_FRAME_TYPE_OPTION,
   SELECTED_FRAME_SECTION,
   SELECTED_THRESHOLD,
-  SELECTED_DOOR_THICKNESS
+  SELECTED_DOOR_THICKNESS,
+  SELECTED_JAMB_LOCATION,
+  SELECTED_DOOR_ORIENTATION,
+  SELECTED_DOOR_FRONT_ARCHITRAVE,
+  SELECTED_DOOR_BACK_ARCHITRAVE
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -45,13 +49,14 @@ const rootReducer = (state = initialState, action) => {
         subDesign: action?.payload,
       };
 
-    case SELECTED_MODEL:  
+    case SELECTED_MODEL:
       return {
         ...state,
         model: action?.payload,
-        selectedPreviousModel: (state?.model && state?.model?.modelPath) ? state?.model :"default"
+        selectedPreviousModel:
+          state?.model && state?.model?.modelPath ? state?.model : "default",
       };
-    
+
     case SELECTED_SHADE:
       return {
         ...state,
@@ -130,7 +135,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         frameSection: action?.payload,
-        selectedPreviousFrameSection: (state?.frameSection && state?.frameSection?.frameSectionValue) ? state?.frameSection : action?.payload
+        selectedPreviousFrameSection:
+          state?.frameSection && state?.frameSection?.frameSectionValue
+            ? state?.frameSection
+            : action?.payload,
       };
 
     case SELECTED_THRESHOLD:
@@ -143,7 +151,40 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         doorThickness: action?.payload,
-        selectedDoorThickness: (state?.doorThickness && state?.doorThickness?.DoorThicknessValue) ? state?.doorThickness : action?.payload
+        selectedDoorThickness:
+          state?.doorThickness && state?.doorThickness?.DoorThicknessValue
+            ? state?.doorThickness
+            : action?.payload,
+      };
+
+    case SELECTED_JAMB_LOCATION:
+      return {
+        ...state,
+        jambLocation: action?.payload,
+        selectedJambLocation:
+          state?.jambLocation && state?.jambLocation?.jambLocationValue
+            ? state?.jambLocation
+            : action?.payload,
+      };
+
+    case SELECTED_DOOR_FRONT_ARCHITRAVE:
+      return {
+        ...state,
+        frontArchitrave: action?.payload,
+        selectedFrontArchitrave:
+          state?.frontArchitrave
+            ? state?.frontArchitrave
+            : action?.payload,
+      };
+
+    case SELECTED_DOOR_BACK_ARCHITRAVE:
+      return {
+        ...state,
+        backArchitrave: action?.payload,
+        selectedBackArchitrave:
+          state?.backArchitrave
+            ? state?.backArchitrave
+            : action?.payload,
       };
 
     default:

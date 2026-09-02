@@ -1,27 +1,27 @@
 "use client";
 import React, { memo } from "react";
 //Reducer
-import { storeThreshold } from "../components/state-handling/root";
+import { storeJambLocation } from "../components/state-handling/root";
 
-function OptionThreshold({ thresholdData, state, dispatch }) {
-  console.log("state: threshold =", state);
+function OptionJambLocation({ locationData, state, dispatch }) {
+  console.log("state: jamb location =", state);
   //Store - door model
-  const storeThresholdToRootReducer = (e) => {
+  const storeJambLocationToRootReducer = (e) => {
     const value = e.target.value;
-    const selectedItem = thresholdData.find(
-      (item) => item.thresholdValue === value
+    const selectedItem = locationData.find(
+      (item) => item.jambLocationValue === value
     );
 
-    dispatch(storeThreshold(selectedItem));
+    dispatch(storeJambLocation(selectedItem));
   };
   return (
-    <div className="border-t border-gray-100 px-5 pb-5 pt-4">
+    <div className="border-t border-gray-100 p-5">
       <label className="mb-2 block text-[12px] font-medium text-gray-500">
-        Threshold
+      Jamb Location
       </label>
 
       <select
-        onChange={storeThresholdToRootReducer}
+        onChange={storeJambLocationToRootReducer}
         className="w-full
         rounded-xl
         border
@@ -35,14 +35,14 @@ function OptionThreshold({ thresholdData, state, dispatch }) {
         focus:ring-4
         focus:ring-[#aaf485]/60"
       >
-        <option>Select Threshold</option>
-        {thresholdData
+        <option>Select Location</option>
+        {locationData
           ?.filter(
             (item) => item.status && item.frameTypeOptionId == state.frameTypeOption?._id
           )
           ?.map((item) => (
-            <option key={item._id} value={item.thresholdValue}>
-              {item.thresholdName}
+            <option key={item._id} value={item.jambLocationValue}>
+              {item.jambLocationName}
             </option>
           ))}
       </select>
@@ -50,7 +50,7 @@ function OptionThreshold({ thresholdData, state, dispatch }) {
   );
 }
 
-export default memo(OptionThreshold, (prevProps, nextProps) => {
+export default memo(OptionJambLocation, (prevProps, nextProps) => {
   return (
     prevProps.frameTypeOptionData === nextProps.frameTypeOptionData &&
     prevProps.state.frameTypeOption === nextProps.state.frameTypeOption

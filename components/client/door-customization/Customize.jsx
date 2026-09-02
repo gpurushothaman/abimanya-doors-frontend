@@ -23,6 +23,10 @@ import OptionFrameTypeOption from "./components/OptionFrameTypeOption";
 import OptionFrameSection from "./components/OptionFrameSection";
 import OptionThreshold from "./components/OptionThreshold";
 import OptionDoorThickness from "./components/OptionDoorThickness";
+import OptionJambLocation from "./components/OptionJambLocation";
+import OptionOrientation from "./components/OptionOrientation";
+import OptionFrontArchitrave from "./components/OptionFrontArchitrave";
+import OptionBackArchitrave from "./components/OptionBackArchitrave";
 
 // Tools
 import DoorCanvas from "./components/tools/DoorCanvas";
@@ -475,32 +479,11 @@ export default function Customize({ optionsData }) {
                     </svg>
                   </summary>
 
-                  <div className="border-t border-gray-100 px-5 pb-5 pt-4">
-                    <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                      Door Orientation
-                    </label>
-
-                    <select
-                      className="
-                        w-full
-                        rounded-xl
-                        border
-                        border-gray-200
-                        bg-[#fafafa]
-                        px-4
-                        py-3
-                        text-[14px]
-                        outline-none
-                        focus:border-[#198754]
-                        focus:ring-4
-                        focus:ring-[#aaf485]/60
-                      "
-                    >
-                      <option>Select Orientation</option>
-                      <option>LHS</option>
-                      <option>RHS</option>
-                    </select>
-                  </div>
+                  <OptionOrientation
+                    orientationData={optionsData?.doorOrientationDatas}
+                    state={state}
+                    dispatch={dispatch}
+                  />
                 </details>
               </div>
             </details>
@@ -549,32 +532,11 @@ export default function Customize({ optionsData }) {
                 </svg>
               </summary>
 
-              <div className="border-t border-gray-100 p-5">
-                <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                  Jamb Location
-                </label>
-
-                <select
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-gray-200
-                    bg-[#fafafa]
-                    px-4
-                    py-3
-                    text-[14px]
-                    outline-none
-                    focus:border-[#198754]
-                    focus:ring-4
-                    focus:ring-[#aaf485]/60
-                  "
-                >
-                  <option>Select Location</option>
-                  <option>Front</option>
-                  <option>Back</option>
-                </select>
-              </div>
+              <OptionJambLocation
+                locationData={optionsData?.doorJambLocationDatas}
+                state={state}
+                dispatch={dispatch}
+              />
             </details>
 
             {/* =================================================
@@ -626,57 +588,19 @@ export default function Customize({ optionsData }) {
               <div className="space-y-4 border-t border-gray-100 p-5">
                 {/* FRONT ARCHITRAVE */}
 
-                <div>
-                  <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                    Front Architrave
-                  </label>
-
-                  <select
-                    className="
-                      w-full
-                      rounded-xl
-                      border
-                      border-gray-200
-                      bg-[#fafafa]
-                      px-4
-                      py-3
-                      text-[14px]
-                      outline-none
-                      focus:border-[#198754]
-                      focus:ring-4
-                      focus:ring-[#aaf485]/60
-                    "
-                  >
-                    <option>Select Front Architrave</option>
-                  </select>
-                </div>
+                <OptionFrontArchitrave
+                  frontArchitraveData={optionsData?.doorArchitraveDatas}
+                  state={state}
+                  dispatch={dispatch}
+                />
 
                 {/* BACK ARCHITRAVE */}
 
-                <div>
-                  <label className="mb-2 block text-[12px] font-medium text-gray-500">
-                    Back Architrave
-                  </label>
-
-                  <select
-                    className="
-                      w-full
-                      rounded-xl
-                      border
-                      border-gray-200
-                      bg-[#fafafa]
-                      px-4
-                      py-3
-                      text-[14px]
-                      outline-none
-                      focus:border-[#198754]
-                      focus:ring-4
-                      focus:ring-[#aaf485]/60
-                    "
-                  >
-                    <option>Select Back Architrave</option>
-                  </select>
-                </div>
+                <OptionBackArchitrave
+                  frontArchitraveData={optionsData?.doorArchitraveDatas}
+                  state={state}
+                  dispatch={dispatch}
+                />
               </div>
             </details>
 

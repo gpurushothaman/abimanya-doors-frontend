@@ -15,7 +15,11 @@ import {
     SELECTED_FRAME_TYPE_OPTION,
     SELECTED_FRAME_SECTION,
     SELECTED_THRESHOLD,
-    SELECTED_DOOR_THICKNESS
+    SELECTED_DOOR_THICKNESS,
+    SELECTED_JAMB_LOCATION,
+    SELECTED_DOOR_ORIENTATION,
+    SELECTED_DOOR_FRONT_ARCHITRAVE,
+    SELECTED_DOOR_BACK_ARCHITRAVE
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -118,4 +122,28 @@ export const storeThreshold = (threshold) => ({
 export const storeDoorThickness = (thickness) => ({
   type: SELECTED_DOOR_THICKNESS,
   payload: thickness
+});
+
+//Store - Jamb location
+export const storeJambLocation = (jambLocation) => ({
+  type: SELECTED_JAMB_LOCATION,
+  payload: jambLocation
+});
+
+//Store - Orientation
+export const storeOrientation = (orientation) => ({
+  type: SELECTED_DOOR_ORIENTATION,
+  payload: orientation
+});
+
+//Store - Front architrave
+export const storeFrontArchitrave = (architrave) => ({
+  type: SELECTED_DOOR_FRONT_ARCHITRAVE,
+  payload: architrave
+});
+
+//Store - Back architrave
+export const storeBackArchitrave = (architrave) => ({
+  type: SELECTED_DOOR_BACK_ARCHITRAVE,
+  payload: architrave
 });

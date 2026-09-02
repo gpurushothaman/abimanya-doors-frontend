@@ -1,27 +1,27 @@
 "use client";
 import React, { memo } from "react";
 //Reducer
-import { storeThreshold } from "../components/state-handling/root";
+import { storeOrientation } from "./state-handling/root";
 
-function OptionThreshold({ thresholdData, state, dispatch }) {
-  console.log("state: threshold =", state);
+function OptionOrientation({ orientationData, state, dispatch }) {
+  console.log("state: orientation =", state);
   //Store - door model
-  const storeThresholdToRootReducer = (e) => {
+  const storeOrientationToRootReducer = (e) => {
     const value = e.target.value;
-    const selectedItem = thresholdData.find(
-      (item) => item.thresholdValue === value
+    const selectedItem = orientationData.find(
+      (item) => item.doorOrientationValue === value
     );
 
-    dispatch(storeThreshold(selectedItem));
+    dispatch(storeOrientation(selectedItem));
   };
   return (
-    <div className="border-t border-gray-100 px-5 pb-5 pt-4">
+    <div className="border-t border-gray-100 p-5">
       <label className="mb-2 block text-[12px] font-medium text-gray-500">
-        Threshold
+      Door Orientation
       </label>
 
       <select
-        onChange={storeThresholdToRootReducer}
+        onChange={storeOrientationToRootReducer}
         className="w-full
         rounded-xl
         border
@@ -35,14 +35,14 @@ function OptionThreshold({ thresholdData, state, dispatch }) {
         focus:ring-4
         focus:ring-[#aaf485]/60"
       >
-        <option>Select Threshold</option>
-        {thresholdData
+        <option>Select Orientation</option>
+        {orientationData
           ?.filter(
             (item) => item.status && item.frameTypeOptionId == state.frameTypeOption?._id
           )
           ?.map((item) => (
-            <option key={item._id} value={item.thresholdValue}>
-              {item.thresholdName}
+            <option key={item._id} value={item.doorOrientationValue}>
+              {item.doorOrientationName}
             </option>
           ))}
       </select>
@@ -50,7 +50,7 @@ function OptionThreshold({ thresholdData, state, dispatch }) {
   );
 }
 
-export default memo(OptionThreshold, (prevProps, nextProps) => {
+export default memo(OptionOrientation, (prevProps, nextProps) => {
   return (
     prevProps.frameTypeOptionData === nextProps.frameTypeOptionData &&
     prevProps.state.frameTypeOption === nextProps.state.frameTypeOption

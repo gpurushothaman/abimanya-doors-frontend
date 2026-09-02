@@ -10,8 +10,11 @@ const initialState = {
     frameTypeOption : null,
     frameSection : null,
     threshold : null,
-    jambLocation: "front",
-    doorThickness: null,
+    jambLocation: null,
+    doorThickness: null,   
+    orientation: null, 
+    frontArchitrave : null,
+    backArchitrave : null,
     smartMenuAction: {
         doorOnlyStatus : true,
         canvasBackgroundThemeStatus : false,
@@ -37,7 +40,11 @@ const initialState = {
     },
     selectedPreviousModel:"default",
     selectedPreviousFrameSection : null,
-    selectedDoorThickness : null
+    selectedDoorThickness : null,
+    selectedJambLocation : null,
+    selectedOrientation : null,
+    selectedFrontArchitrave : null,
+    selectedBackArchitrave : null,
 };
 
 export default initialState;
