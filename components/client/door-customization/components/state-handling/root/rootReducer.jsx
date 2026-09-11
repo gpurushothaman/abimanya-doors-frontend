@@ -28,7 +28,21 @@ const rootReducer = (state = initialState, action) => {
     case STORE_DATA:
       return {
         ...state,
-        storeData: action?.payload?.responseData,
+        storeData: action?.payload?.responseData?.allOptionData,
+        design : action?.payload?.responseData?.initialDesign,
+        subDesign : action?.payload?.responseData?.initialSubDesign,
+        model : action?.payload?.responseData?.initialModel,
+        selectedPreviousModel : action?.payload?.responseData?.selectedPreviousModel,
+        frame : action?.payload?.responseData?.initialFrame,
+        frameType : action?.payload?.responseData?.initialFrameType,
+        frameTypeOption : action?.payload?.responseData?.initialFrameTypeOption,
+        frameSection : action?.payload?.responseData?.initialFrameSection,
+        orientation : action?.payload?.responseData?.initialOrientation,
+        threshold : action?.payload?.responseData?.initialThreshold,
+        jambLocation : action?.payload?.responseData?.initialJambLocation,
+        frontArchitrave : action?.payload?.responseData?.initialFrontArchitrave,
+        backArchitrave : action?.payload?.responseData?.initialBackArchitrave,
+        doorThickness : action?.payload?.responseData?.initialDoorthickness,
       };
 
     case SELECTED_LOCATION:

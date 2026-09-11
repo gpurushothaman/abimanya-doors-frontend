@@ -19,6 +19,7 @@ function OptionFrameSection({ frameSectionData, state, dispatch }) {
       </label>
 
       <select
+      defaultValue={state.frameSection?.frameSectionValue || ""}
         onChange={storeFrameSectionToRootReducer}
         className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60"
       >

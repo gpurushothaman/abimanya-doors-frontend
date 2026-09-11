@@ -18,6 +18,7 @@ function OptionFrontArchitrave({ frontArchitraveData, state, dispatch }) {
       </label>
 
       <select
+        defaultValue={state.frontArchitrave || ""}
         onChange={storeFrontArchitraveToRootReducer}
         className="w-full
         rounded-xl

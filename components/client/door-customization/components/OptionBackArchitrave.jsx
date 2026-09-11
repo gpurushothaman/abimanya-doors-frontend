@@ -18,6 +18,7 @@ function OptionBackArchitrave({ backArchitraveData, state, dispatch }) {
       </label>
 
       <select
+      defaultValue={state.backArchitrave || ""}
         onChange={storeBackArchitraveToRootReducer}
         className="w-full
         rounded-xl
@@ -37,7 +38,7 @@ function OptionBackArchitrave({ backArchitraveData, state, dispatch }) {
           ?.filter(
             (item) => item.status && item.frameTypeOptionId ===
             state.frameTypeOption?._id
-          )?.flatMap((item) => item.front || [])
+          )?.flatMap((item) => item.back || [])
           ?.map((item,idx) => (
             <option key={idx} value={item.value}>
               {item.name}

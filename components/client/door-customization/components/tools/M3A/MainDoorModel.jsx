@@ -35,7 +35,7 @@ const MainDoorModel = React.memo(
         }
 
         // DOOR
-        else if (child.name === "_3a_door001") {
+        else if (child.name === "ABHAIMANYA_DOORS__3a_door") {
           if (child.material) {
             child.material.roughness = 0.4;
           }

@@ -54,8 +54,26 @@ export default function Customize({ optionsData }) {
     storeDataToRootReducer();
   }, []);
 
-  const storeDataToRootReducer = () => {
-    dispatch(storeData(optionsData));
+  const storeDataToRootReducer = () => {    
+    const initialOptionsConfig={
+      allOptionData : optionsData,
+      initialDesign : optionsData?.design?.[0],
+      initialSubDesign : optionsData?.subDesign?.[0],
+      initialModel : optionsData?.models?.[0],     
+      initialFrame : optionsData?.frames?.[0],
+      initialFrameType : optionsData?.frameTypes?.[0],
+      initialFrameTypeOption : optionsData?.frameTypeOptions?.[0],
+      initialFrameSection : optionsData?.frameSections?.[0],
+      initialThreshold : optionsData?.doorThresholds?.[0],
+      initialOrientation : optionsData?.doorOrientationDatas?.[0],  
+      initialJambLocation : optionsData?.doorJambLocationDatas?.[0],     
+      initialFrontArchitrave : optionsData?.doorArchitraveDatas?.[0]?.front?.[0]?.value, 
+      initialBackArchitrave : optionsData?.doorArchitraveDatas?.[0]?.back?.[0]?.value,   
+      initialDoorthickness : optionsData?.doorThicknessDatas?.[0],     
+      
+    }
+
+    dispatch(storeData(initialOptionsConfig));
   };
 
   console.log("wow:=", optionsData);
@@ -597,7 +615,7 @@ export default function Customize({ optionsData }) {
                 {/* BACK ARCHITRAVE */}
 
                 <OptionBackArchitrave
-                  frontArchitraveData={optionsData?.doorArchitraveDatas}
+                  backArchitraveData={optionsData?.doorArchitraveDatas}
                   state={state}
                   dispatch={dispatch}
                 />
