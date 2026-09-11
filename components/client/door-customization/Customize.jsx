@@ -1,84 +1,465 @@
 "use client";
 
-import { useReducer, useEffect, useState } from "react";
+import {
+  useReducer,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-// Reducer
+
+/* =========================================================
+   REDUCER
+========================================================= */
+
 import {
   rootReducer,
   initialState,
   storeData,
 } from "./components/state-handling/root";
 
-// Components
-// UI
+
+/* =========================================================
+   UI COMPONENTS
+========================================================= */
+
 import OptionLocation from "./components/OptionLocation";
 import OptionDesign from "./components/OptionDesign";
 import OptionSubDesign from "./components/OptionSubDesign";
 import OptionModel from "./components/OptionModel";
 import OptionShade from "./components/OptionShade";
+
 import OptionFrame from "./components/OptionFrame";
 import AdjustWall from "./components/AdjustWall";
+
 import OptionFrameType from "./components/OptionFrameType";
 import OptionFrameTypeOption from "./components/OptionFrameTypeOption";
 import OptionFrameSection from "./components/OptionFrameSection";
+
 import OptionThreshold from "./components/OptionThreshold";
 import OptionDoorThickness from "./components/OptionDoorThickness";
+
 import OptionJambLocation from "./components/OptionJambLocation";
 import OptionOrientation from "./components/OptionOrientation";
+
 import OptionFrontArchitrave from "./components/OptionFrontArchitrave";
 import OptionBackArchitrave from "./components/OptionBackArchitrave";
 
-// Tools
+
+/* =========================================================
+   TOOLS
+========================================================= */
+
 import DoorCanvas from "./components/tools/DoorCanvas";
 
-export default function Customize({ optionsData }) {
-  // =========================================================
-  // REDUCER
-  // =========================================================
 
-  const [state, dispatch] = useReducer(rootReducer, initialState);
+/* =========================================================
+   QUOTATION CALCULATIONS
+========================================================= */
 
-  // =========================================================
-  // SIDEBAR STATE
-  // =========================================================
+import {
+  buildDoorShutterQuotationFromState,
+} from "./components/quotation/door-shutter/doorShutterQuotation";
 
-  // false = sidebar closed when page opens
-  // true  = sidebar opened
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+import {
+  buildDoorFrameQuotationFromState,
+} from "./components/quotation/door-frame/doorFrameQuotation";
 
-  // =========================================================
-  // STORE DATA
-  // =========================================================
+import {
+  buildArchitraveQuotationFromState,
+} from "./components/quotation/architrave/architraveQuotation";
+
+
+/* =========================================================
+   QUOTATION MODAL
+========================================================= */
+
+import QuotationModal from "./components/quotation/QuotationModal";
+
+
+/* =========================================================
+   QUOTATION MOCK DATA
+
+   IMPORTANT:
+   We intentionally use namespace import.
+
+   This avoids the previous error:
+   "quotationMockData is not exported"
+
+   No named export is assumed here.
+========================================================= */
+
+import * as quotationMockDataModule from "./components/quotation/quotationMockData";
+
+
+/* =========================================================
+   RESOLVE QUOTATION MOCK DATA
+========================================================= */
+
+function resolveQuotationMockData(module) {
+  if (!module) {
+    return null;
+  }
+
+
+  /* -------------------------------------------------------
+     Default export
+  ------------------------------------------------------- */
+
+  if (
+    module.default &&
+    typeof module.default === "object"
+  ) {
+    return module.default;
+  }
+
+
+  /* -------------------------------------------------------
+     Common export names
+  ------------------------------------------------------- */
+
+  if (
+    module.quotationMockData &&
+    typeof module.quotationMockData === "object"
+  ) {
+    return module.quotationMockData;
+  }
+
+
+  if (
+    module.QUOTE_MOCK_DATA &&
+    typeof module.QUOTE_MOCK_DATA === "object"
+  ) {
+    return module.QUOTE_MOCK_DATA;
+  }
+
+
+  /* -------------------------------------------------------
+     Fallback:
+     find first object export that looks like quotation
+  ------------------------------------------------------- */
+
+  const possibleValues =
+    Object.values(module);
+
+
+  const quotationObject =
+    possibleValues.find(
+      (value) => {
+        if (
+          !value ||
+          typeof value !== "object" ||
+          Array.isArray(value)
+        ) {
+          return false;
+        }
+
+
+        return Boolean(
+          value.customer ||
+          value.items ||
+          value.configuration ||
+          value.commercial ||
+          value.quoteNumber
+        );
+      }
+    );
+
+
+  return quotationObject || null;
+}
+
+
+const quotationMockData =
+  resolveQuotationMockData(
+    quotationMockDataModule
+  );
+
+
+/* =========================================================
+   MAIN COMPONENT
+========================================================= */
+
+export default function Customize({
+  optionsData,
+}) {
+  /* =======================================================
+     REDUCER
+  ======================================================== */
+
+  const [
+    state,
+    dispatch,
+  ] = useReducer(
+    rootReducer,
+    initialState
+  );
+
+
+  /* =======================================================
+     SIDEBAR
+  ======================================================== */
+
+  const [
+    isSidebarOpen,
+    setIsSidebarOpen,
+  ] = useState(false);
+
+
+  /* =======================================================
+     QUOTATION MODAL
+  ======================================================== */
+
+  const [
+    isQuotationOpen,
+    setIsQuotationOpen,
+  ] = useState(false);
+
+
+  /* =======================================================
+     SAVED QUOTATIONS
+  ======================================================== */
+
+  const [
+    savedDoorShutterQuotation,
+    setSavedDoorShutterQuotation,
+  ] = useState(null);
+
+
+  const [
+    savedDoorFrameQuotation,
+    setSavedDoorFrameQuotation,
+  ] = useState(null);
+
+
+  const [
+    savedArchitraveQuotation,
+    setSavedArchitraveQuotation,
+  ] = useState(null);
+
+
+  /* =======================================================
+     STORE OPTIONS DATA
+  ======================================================== */
 
   useEffect(() => {
-    storeDataToRootReducer();
-  }, []);
+    if (optionsData) {
+      dispatch(
+        storeData(
+          optionsData
+        )
+      );
+    }
+  }, [optionsData]);
 
-  const storeDataToRootReducer = () => {
-    dispatch(storeData(optionsData));
+
+  console.log(
+    "wow:=",
+    optionsData
+  );
+
+
+  /* =======================================================
+     DOOR SHUTTER QUOTATION
+  ======================================================== */
+
+  const doorShutterQuotation =
+    useMemo(() => {
+      try {
+        return buildDoorShutterQuotationFromState(
+          state,
+          {
+            quantity: 1,
+          }
+        );
+      } catch (error) {
+        console.error(
+          "DOOR SHUTTER QUOTATION ERROR:",
+          error
+        );
+
+        return null;
+      }
+    }, [state]);
+
+
+  /* =======================================================
+     DOOR FRAME QUOTATION
+  ======================================================== */
+
+  const doorFrameQuotation =
+    useMemo(() => {
+      try {
+        return buildDoorFrameQuotationFromState(
+          state,
+          {
+            quantity: 1,
+          }
+        );
+      } catch (error) {
+        console.error(
+          "DOOR FRAME QUOTATION ERROR:",
+          error
+        );
+
+        return null;
+      }
+    }, [state]);
+
+
+  /* =======================================================
+     ARCHITRAVE QUOTATION
+  ======================================================== */
+
+  const architraveQuotation =
+    useMemo(() => {
+      try {
+        return buildArchitraveQuotationFromState(
+          state
+        );
+      } catch (error) {
+        console.error(
+          "ARCHITRAVE QUOTATION ERROR:",
+          error
+        );
+
+        return {
+          front: null,
+          back: null,
+          hasFront: false,
+          hasBack: false,
+          totalAmount: 0,
+          items: [],
+        };
+      }
+    }, [state]);
+
+
+  /* =======================================================
+     ARCHITRAVE DEBUG
+  ======================================================== */
+
+  console.log(
+    "ARCHITRAVE QUOTATION FROM CUSTOMIZE:",
+    architraveQuotation
+  );
+
+
+  console.log(
+    "SAVED ARCHITRAVE:",
+    savedArchitraveQuotation
+  );
+
+
+  console.log(
+    "FRONT ITEM:",
+    architraveQuotation
+      ?.front
+      ?.quotationItem
+  );
+
+
+  console.log(
+    "BACK ITEM:",
+    architraveQuotation
+      ?.back
+      ?.quotationItem
+  );
+
+
+  /* =======================================================
+     OPEN QUOTATION
+  ======================================================== */
+
+  const handleOpenQuotation = () => {
+
+    if (!quotationMockData) {
+      console.error(
+        "Quotation mock data was not found."
+      );
+
+      return;
+    }
+
+
+    /* -----------------------------------------------------
+       Save current quotation snapshot
+    ----------------------------------------------------- */
+
+    setSavedDoorShutterQuotation(
+      doorShutterQuotation
+    );
+
+
+    setSavedDoorFrameQuotation(
+      doorFrameQuotation
+    );
+
+
+    setSavedArchitraveQuotation(
+      architraveQuotation
+    );
+
+
+    /* -----------------------------------------------------
+       Close sidebar
+    ----------------------------------------------------- */
+
+    setIsSidebarOpen(false);
+
+
+    /* -----------------------------------------------------
+       Open quotation
+    ----------------------------------------------------- */
+
+    setIsQuotationOpen(true);
   };
 
-  console.log("wow:=", optionsData);
+
+  /* =======================================================
+     CLOSE QUOTATION
+  ======================================================== */
+
+  const handleCloseQuotation = () => {
+    setIsQuotationOpen(false);
+  };
+
+
+  /* =======================================================
+     RENDER
+  ======================================================== */
 
   return (
     <main className="relative h-screen w-full overflow-hidden bg-[#f3f4f6] text-[#202522]">
-      {/* =========================================================
+
+
+      {/* =====================================================
           FULL SCREEN DOOR CANVAS
-      ========================================================= */}
+      ====================================================== */}
 
       <section className="absolute inset-0 z-0 min-h-0 min-w-0 overflow-hidden">
-        <DoorCanvas state={state} dispatch={dispatch} />
+
+        <DoorCanvas
+          state={state}
+          dispatch={dispatch}
+        />
+
       </section>
 
-      {/* =========================================================
-          LEFT TOP SIDEBAR BUTTON
-          Shows only when sidebar is CLOSED
-      ========================================================= */}
+
+      {/* =====================================================
+          LEFT TOP BUTTON
+
+          Only visible when sidebar closed
+      ====================================================== */}
 
       {!isSidebarOpen && (
+
         <button
           type="button"
-          onClick={() => setIsSidebarOpen(true)}
+          onClick={() =>
+            setIsSidebarOpen(true)
+          }
           aria-label="Open customize options"
           className="
             fixed
@@ -101,7 +482,7 @@ export default function Customize({ optionsData }) {
             active:scale-95
           "
         >
-          {/* Hamburger Icon */}
+
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -109,19 +490,33 @@ export default function Customize({ optionsData }) {
             strokeWidth="2"
             className="h-6 w-6"
           >
-            <path strokeLinecap="round" d="M4 7h16" />
-            <path strokeLinecap="round" d="M4 12h16" />
-            <path strokeLinecap="round" d="M4 17h16" />
+            <path
+              strokeLinecap="round"
+              d="M4 7h16"
+            />
+
+            <path
+              strokeLinecap="round"
+              d="M4 12h16"
+            />
+
+            <path
+              strokeLinecap="round"
+              d="M4 17h16"
+            />
+
           </svg>
+
         </button>
       )}
 
-      {/* =========================================================
+
+      {/* =====================================================
           CUSTOMIZE SIDEBAR
-          Only visible after clicking the left button
-      ========================================================= */}
+      ====================================================== */}
 
       {isSidebarOpen && (
+
         <aside
           className="
             absolute
@@ -137,23 +532,38 @@ export default function Customize({ optionsData }) {
             shadow-[8px_0_30px_rgba(0,0,0,0.12)]
           "
         >
-          {/* =====================================================
-              HEADER
-          ===================================================== */}
 
-          <header className="shrink-0 px-8 pb-4 pt-18">
+          {/* =================================================
+              HEADER
+          ================================================= */}
+
+          <header
+            className="
+              shrink-0
+              px-8
+              pb-4
+              pt-18
+            "
+          >
+
             <div className="flex items-center justify-between">
+
               <div>
+
                 <h1 className="text-[25px] font-semibold tracking-[-0.4px]">
                   Customize Options
                 </h1>
+
               </div>
 
-              {/* CLOSE BUTTON */}
+
+              {/* CLOSE */}
 
               <button
                 type="button"
-                onClick={() => setIsSidebarOpen(false)}
+                onClick={() =>
+                  setIsSidebarOpen(false)
+                }
                 aria-label="Close customize options"
                 className="
                   flex
@@ -168,6 +578,7 @@ export default function Customize({ optionsData }) {
                   hover:text-gray-900
                 "
               >
+
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -175,22 +586,43 @@ export default function Customize({ optionsData }) {
                   strokeWidth="2"
                   className="h-6 w-6"
                 >
-                  <path strokeLinecap="round" d="M6 6l12 12" />
 
-                  <path strokeLinecap="round" d="M18 6L6 18" />
+                  <path
+                    strokeLinecap="round"
+                    d="M6 6l12 12"
+                  />
+
+                  <path
+                    strokeLinecap="round"
+                    d="M18 6L6 18"
+                  />
+
                 </svg>
+
               </button>
+
             </div>
+
           </header>
 
-          {/* =====================================================
-              SCROLLABLE CUSTOMIZE OPTIONS
-          ===================================================== */}
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-2">
+          {/* =================================================
+              SCROLLABLE OPTIONS
+          ================================================== */}
+
+          <div
+            className="
+              min-h-0
+              flex-1
+              overflow-y-auto
+              px-5
+              pb-2
+            "
+          >
+
             {/* =================================================
                 DOOR OPTIONS
-            ================================================= */}
+            ================================================== */}
 
             <details
               open
@@ -202,14 +634,31 @@ export default function Customize({ optionsData }) {
                 shadow-[0_5px_20px_rgba(0,0,0,0.08)]
               "
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-4">
+
+              <summary
+                className="
+                  flex
+                  cursor-pointer
+                  list-none
+                  items-center
+                  justify-between
+                  px-4
+                  py-4
+                "
+              >
+
                 <div>
-                  <h2 className="text-[18px] font-semibold">Door Options</h2>
+
+                  <h2 className="text-[18px] font-semibold">
+                    Door Options
+                  </h2>
 
                   <p className="mt-1 text-[12px] text-gray-500">
                     Design and configure your door
                   </p>
+
                 </div>
+
 
                 <svg
                   viewBox="0 0 24 24"
@@ -221,34 +670,41 @@ export default function Customize({ optionsData }) {
                     w-6
                     text-gray-600
                     transition-transform
-                    duration-200
                     group-open:rotate-180
                   "
                 >
+
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M6 9l6 6 6-6"
+                    d="M6 9l6 6-6"
                   />
+
                 </svg>
+
               </summary>
 
-              {/* =================================================
-                  DOOR SUB OPTIONS
-              ================================================= */}
 
-              <div className="bg-[#fafafa] px-3 pb-3">
+              <div
+                className="
+                  bg-[#fafafa]
+                  px-3
+                  pb-3
+                "
+              >
+
                 {/* LOCATION */}
 
                 <OptionLocation
-                  locationData={optionsData?.location}
+                  locationData={
+                    optionsData?.location
+                  }
                   state={state}
                   dispatch={dispatch}
                 />
 
-                {/* =================================================
-                    DESIGNS
-                ================================================= */}
+
+                {/* DESIGNS */}
 
                 <details
                   className="
@@ -260,8 +716,23 @@ export default function Customize({ optionsData }) {
                     shadow-sm
                   "
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-                    <span className="text-[16px] font-medium">Designs</span>
+
+                  <summary
+                    className="
+                      flex
+                      cursor-pointer
+                      list-none
+                      items-center
+                      justify-between
+                      px-5
+                      py-4
+                    "
+                  >
+
+                    <span className="text-[16px] font-medium">
+                      Designs
+                    </span>
+
 
                     <svg
                       viewBox="0 0 24 24"
@@ -276,52 +747,70 @@ export default function Customize({ optionsData }) {
                         group-open/item:rotate-180
                       "
                     >
+
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         d="M6 9l6 6 6-6"
                       />
+
                     </svg>
+
                   </summary>
 
-                  <div className="space-y-4 border-t border-gray-100 px-5 pb-5 pt-4">
-                    {/* DESIGN */}
+
+                  <div
+                    className="
+                      space-y-4
+                      border-t
+                      border-gray-100
+                      px-5
+                      pb-5
+                      pt-4
+                    "
+                  >
 
                     <OptionDesign
-                      designData={optionsData?.design}
+                      designData={
+                        optionsData?.design
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
 
-                    {/* SUB DESIGN */}
 
                     <OptionSubDesign
-                      subDesignData={optionsData?.subDesign}
+                      subDesignData={
+                        optionsData?.subDesign
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
 
-                    {/* MODEL */}
 
                     <OptionModel
-                      modelData={optionsData?.models}
+                      modelData={
+                        optionsData?.models
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
 
-                    {/* SHADE */}
 
                     <OptionShade
-                      shadeData={optionsData?.shades}
+                      shadeData={
+                        optionsData?.shades
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
+
                   </div>
+
                 </details>
 
-                {/* =================================================
-                    FRAMES
-                ================================================= */}
+
+                {/* FRAMES */}
 
                 <details
                   className="
@@ -333,8 +822,23 @@ export default function Customize({ optionsData }) {
                     shadow-sm
                   "
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-                    <span className="text-[16px] font-medium">Frames</span>
+
+                  <summary
+                    className="
+                      flex
+                      cursor-pointer
+                      list-none
+                      items-center
+                      justify-between
+                      px-5
+                      py-4
+                    "
+                  >
+
+                    <span className="text-[16px] font-medium">
+                      Frames
+                    </span>
+
 
                     <svg
                       viewBox="0 0 24 24"
@@ -349,56 +853,78 @@ export default function Customize({ optionsData }) {
                         group-open/item:rotate-180
                       "
                     >
+
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         d="M6 9l6 6 6-6"
                       />
+
                     </svg>
+
                   </summary>
 
-                  <div className="space-y-5 border-t border-gray-100 px-5 pb-5 pt-4">
-                    {/* FRAME */}
+
+                  <div
+                    className="
+                      space-y-5
+                      border-t
+                      border-gray-100
+                      px-5
+                      pb-5
+                      pt-4
+                    "
+                  >
 
                     <OptionFrame
-                      frameData={optionsData?.frames}
+                      frameData={
+                        optionsData?.frames
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
 
-                    {/* ADJUST WALL */}
 
-                    <AdjustWall wallData={state?.wall} dispatch={dispatch} />
+                    <AdjustWall
+                      wallData={
+                        state?.wall
+                      }
+                      dispatch={dispatch}
+                    />
 
-                    {/* FRAME TYPE */}
 
                     <OptionFrameType
-                      frameTypeData={optionsData?.frameTypes}
+                      frameTypeData={
+                        optionsData?.frameTypes
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
 
-                    {/* FRAME TYPE OPTIONS */}
 
                     <OptionFrameTypeOption
-                      frameTypeOptionData={optionsData?.frameTypeOptions}
+                      frameTypeOptionData={
+                        optionsData?.frameTypeOptions
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
 
-                    {/* FRAME SECTION */}
 
                     <OptionFrameSection
-                      frameSectionData={optionsData?.frameSections}
+                      frameSectionData={
+                        optionsData?.frameSections
+                      }
                       state={state}
                       dispatch={dispatch}
                     />
+
                   </div>
+
                 </details>
 
-                {/* =================================================
-                    THRESHOLD
-                ================================================= */}
+
+                {/* THRESHOLD */}
 
                 <details
                   className="
@@ -410,8 +936,22 @@ export default function Customize({ optionsData }) {
                     shadow-sm
                   "
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-                    <span className="text-[16px] font-medium">Threshold</span>
+
+                  <summary
+                    className="
+                      flex
+                      cursor-pointer
+                      list-none
+                      items-center
+                      justify-between
+                      px-5
+                      py-4
+                    "
+                  >
+
+                    <span className="text-[16px] font-medium">
+                      Threshold
+                    </span>
 
                     <svg
                       viewBox="0 0 24 24"
@@ -426,24 +966,30 @@ export default function Customize({ optionsData }) {
                         group-open/item:rotate-180
                       "
                     >
+
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         d="M6 9l6 6 6-6"
                       />
+
                     </svg>
+
                   </summary>
+
 
                   <OptionThreshold
-                    thresholdData={optionsData?.doorThresholds}
+                    thresholdData={
+                      optionsData?.doorThresholds
+                    }
                     state={state}
                     dispatch={dispatch}
                   />
+
                 </details>
 
-                {/* =================================================
-                    ORIENTATION
-                ================================================= */}
+
+                {/* ORIENTATION */}
 
                 <details
                   className="
@@ -455,8 +1001,22 @@ export default function Customize({ optionsData }) {
                     shadow-sm
                   "
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-                    <span className="text-[16px] font-medium">Orientation</span>
+
+                  <summary
+                    className="
+                      flex
+                      cursor-pointer
+                      list-none
+                      items-center
+                      justify-between
+                      px-5
+                      py-4
+                    "
+                  >
+
+                    <span className="text-[16px] font-medium">
+                      Orientation
+                    </span>
 
                     <svg
                       viewBox="0 0 24 24"
@@ -471,26 +1031,36 @@ export default function Customize({ optionsData }) {
                         group-open/item:rotate-180
                       "
                     >
+
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         d="M6 9l6 6 6-6"
                       />
+
                     </svg>
+
                   </summary>
 
+
                   <OptionOrientation
-                    orientationData={optionsData?.doorOrientationDatas}
+                    orientationData={
+                      optionsData?.doorOrientationDatas
+                    }
                     state={state}
                     dispatch={dispatch}
                   />
+
                 </details>
+
               </div>
+
             </details>
+
 
             {/* =================================================
                 JAMB OPTIONS
-            ================================================= */}
+            ================================================== */}
 
             <details
               className="
@@ -502,13 +1072,29 @@ export default function Customize({ optionsData }) {
                 shadow-[0_5px_20px_rgba(0,0,0,0.08)]
               "
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
+
+              <summary
+                className="
+                  flex
+                  cursor-pointer
+                  list-none
+                  items-center
+                  justify-between
+                  px-5
+                  py-5
+                "
+              >
+
                 <div>
-                  <h2 className="text-[17px] font-semibold">Jamb Options</h2>
+
+                  <h2 className="text-[17px] font-semibold">
+                    Jamb Options
+                  </h2>
 
                   <p className="mt-1 text-[12px] text-gray-500">
                     Configure jamb placement
                   </p>
+
                 </div>
 
                 <svg
@@ -524,24 +1110,32 @@ export default function Customize({ optionsData }) {
                     group-open:rotate-180
                   "
                 >
+
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d="M6 9l6 6 6-6"
                   />
+
                 </svg>
+
               </summary>
 
+
               <OptionJambLocation
-                locationData={optionsData?.doorJambLocationDatas}
+                locationData={
+                  optionsData?.doorJambLocationDatas
+                }
                 state={state}
                 dispatch={dispatch}
               />
+
             </details>
+
 
             {/* =================================================
                 ARCHITRAVE OPTIONS
-            ================================================= */}
+            ================================================== */}
 
             <details
               className="
@@ -553,8 +1147,21 @@ export default function Customize({ optionsData }) {
                 shadow-[0_5px_20px_rgba(0,0,0,0.08)]
               "
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
+
+              <summary
+                className="
+                  flex
+                  cursor-pointer
+                  list-none
+                  items-center
+                  justify-between
+                  px-5
+                  py-5
+                "
+              >
+
                 <div>
+
                   <h2 className="text-[17px] font-semibold">
                     Architrave Options
                   </h2>
@@ -562,7 +1169,9 @@ export default function Customize({ optionsData }) {
                   <p className="mt-1 text-[12px] text-gray-500">
                     Adjust front and back finish
                   </p>
+
                 </div>
+
 
                 <svg
                   viewBox="0 0 24 24"
@@ -577,36 +1186,52 @@ export default function Customize({ optionsData }) {
                     group-open:rotate-180
                   "
                 >
+
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d="M6 9l6 6 6-6"
                   />
+
                 </svg>
+
               </summary>
 
-              <div className="space-y-4 border-t border-gray-100 p-5">
-                {/* FRONT ARCHITRAVE */}
+
+              <div
+                className="
+                  space-y-4
+                  border-t
+                  border-gray-100
+                  p-5
+                "
+              >
 
                 <OptionFrontArchitrave
-                  frontArchitraveData={optionsData?.doorArchitraveDatas}
+                  frontArchitraveData={
+                    optionsData?.doorArchitraveDatas
+                  }
                   state={state}
                   dispatch={dispatch}
                 />
 
-                {/* BACK ARCHITRAVE */}
 
                 <OptionBackArchitrave
-                  frontArchitraveData={optionsData?.doorArchitraveDatas}
+                  frontArchitraveData={
+                    optionsData?.doorArchitraveDatas
+                  }
                   state={state}
                   dispatch={dispatch}
                 />
+
               </div>
+
             </details>
+
 
             {/* =================================================
                 THICKNESS OPTIONS
-            ================================================= */}
+            ================================================== */}
 
             <details
               className="
@@ -618,8 +1243,21 @@ export default function Customize({ optionsData }) {
                 shadow-[0_5px_20px_rgba(0,0,0,0.08)]
               "
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-5">
+
+              <summary
+                className="
+                  flex
+                  cursor-pointer
+                  list-none
+                  items-center
+                  justify-between
+                  px-5
+                  py-5
+                "
+              >
+
                 <div>
+
                   <h2 className="text-[17px] font-semibold">
                     Thickness Options
                   </h2>
@@ -627,7 +1265,9 @@ export default function Customize({ optionsData }) {
                   <p className="mt-1 text-[12px] text-gray-500">
                     Choose your door thickness
                   </p>
+
                 </div>
+
 
                 <svg
                   viewBox="0 0 24 24"
@@ -642,34 +1282,64 @@ export default function Customize({ optionsData }) {
                     group-open:rotate-180
                   "
                 >
+
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d="M6 9l6 6 6-6"
                   />
+
                 </svg>
+
               </summary>
-              <div className="space-y-4 border-t border-gray-100 p-5">
+
+
+              <div
+                className="
+                  space-y-4
+                  border-t
+                  border-gray-100
+                  p-5
+                "
+              >
+
                 <OptionDoorThickness
-                  doorThicknessData={optionsData?.doorThicknessDatas}
+                  doorThicknessData={
+                    optionsData?.doorThicknessDatas
+                  }
                   state={state}
                   dispatch={dispatch}
                 />
+
               </div>
+
             </details>
 
-            {/* Bottom space */}
 
             <div className="h-24" />
+
           </div>
 
-          {/* =====================================================
-              SAVE BUTTON
-          ===================================================== */}
 
-          <div className="shrink-0 border-t border-black/5 bg-amber-50 p-3">
+          {/* =================================================
+              SAVE / QUOTATION BUTTON
+          ================================================== */}
+
+          <div
+            className="
+              shrink-0
+              border-t
+              border-black/5
+              bg-amber-50
+              p-3
+            "
+          >
+
             <button
               type="button"
+              onClick={
+                handleOpenQuotation
+              }
               className="
                 flex
                 h-[52px]
@@ -690,9 +1360,50 @@ export default function Customize({ optionsData }) {
             >
               Save
             </button>
+
           </div>
+
         </aside>
+
       )}
+
+
+      {/* =====================================================
+          QUOTATION MODAL
+      ====================================================== */}
+
+      {isQuotationOpen && quotationMockData && (
+
+        <QuotationModal
+
+          quotation={
+            quotationMockData
+          }
+
+
+          doorShutterQuotation={
+            savedDoorShutterQuotation
+          }
+
+
+          doorFrameQuotation={
+            savedDoorFrameQuotation
+          }
+
+
+          architraveQuotation={
+            savedArchitraveQuotation
+          }
+
+
+          onClose={
+            handleCloseQuotation
+          }
+
+        />
+
+      )}
+
     </main>
   );
 }
