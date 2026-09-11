@@ -21,6 +21,7 @@ function OptionThreshold({ thresholdData, state, dispatch }) {
       </label>
 
       <select
+      defaultValue={state.threshold?.thresholdValue || ""}
         onChange={storeThresholdToRootReducer}
         className="w-full
         rounded-xl

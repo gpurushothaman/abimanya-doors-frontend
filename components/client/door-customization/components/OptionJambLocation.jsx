@@ -21,6 +21,7 @@ function OptionJambLocation({ locationData, state, dispatch }) {
       </label>
 
       <select
+        defaultValue={state.jambLocation?.jambLocationValue || ""}
         onChange={storeJambLocationToRootReducer}
         className="w-full
         rounded-xl

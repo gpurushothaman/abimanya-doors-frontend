@@ -238,25 +238,37 @@ export default function Customize({
   ] = useState(null);
 
 
-  /* =======================================================
-     STORE OPTIONS DATA
-  ======================================================== */
+  // =========================================================
+  // STORE DATA
+  // =========================================================
 
   useEffect(() => {
-    if (optionsData) {
-      dispatch(
-        storeData(
-          optionsData
-        )
-      );
+    storeDataToRootReducer();
+  }, []);
+
+  const storeDataToRootReducer = () => {    
+    const initialOptionsConfig={
+      allOptionData : optionsData,
+      initialDesign : optionsData?.design?.[0],
+      initialSubDesign : optionsData?.subDesign?.[0],
+      initialModel : optionsData?.models?.[0],     
+      initialFrame : optionsData?.frames?.[0],
+      initialFrameType : optionsData?.frameTypes?.[0],
+      initialFrameTypeOption : optionsData?.frameTypeOptions?.[0],
+      initialFrameSection : optionsData?.frameSections?.[0],
+      initialThreshold : optionsData?.doorThresholds?.[0],
+      initialOrientation : optionsData?.doorOrientationDatas?.[0],  
+      initialJambLocation : optionsData?.doorJambLocationDatas?.[0],     
+      initialFrontArchitrave : optionsData?.doorArchitraveDatas?.[0]?.front?.[0]?.value, 
+      initialBackArchitrave : optionsData?.doorArchitraveDatas?.[0]?.back?.[0]?.value,   
+      initialDoorthickness : optionsData?.doorThicknessDatas?.[0],     
+      
     }
-  }, [optionsData]);
 
+    dispatch(storeData(initialOptionsConfig));
+  };
 
-  console.log(
-    "wow:=",
-    optionsData
-  );
+  console.log("wow:=", optionsData);
 
 
   /* =======================================================
@@ -413,9 +425,9 @@ export default function Customize({
     ----------------------------------------------------- */
 
     setIsQuotationOpen(true);
-  };
 
 
+  }
   /* =======================================================
      CLOSE QUOTATION
   ======================================================== */
@@ -1217,9 +1229,7 @@ export default function Customize({
 
 
                 <OptionBackArchitrave
-                  frontArchitraveData={
-                    optionsData?.doorArchitraveDatas
-                  }
+                  backArchitraveData={optionsData?.doorArchitraveDatas}
                   state={state}
                   dispatch={dispatch}
                 />

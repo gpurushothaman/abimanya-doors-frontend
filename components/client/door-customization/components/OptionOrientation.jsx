@@ -21,6 +21,7 @@ function OptionOrientation({ orientationData, state, dispatch }) {
       </label>
 
       <select
+      defaultValue={state.orientation?.doorOrientationValue || ""}
         onChange={storeOrientationToRootReducer}
         className="w-full
         rounded-xl

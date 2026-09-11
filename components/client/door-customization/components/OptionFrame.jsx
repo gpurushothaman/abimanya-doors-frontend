@@ -19,6 +19,7 @@ function OptionFrame({ frameData, state, dispatch }) {
       </label>
 
       <select
+        defaultValue={state.frame?.frameValue || ""}
         onChange={storeFrameToRootReducer}
         className="w-full rounded-xl border border-gray-200 bg-[#fafafa] px-4 py-3 text-[14px] outline-none focus:border-[#198754] focus:ring-4 focus:ring-[#aaf485]/60"
       >
