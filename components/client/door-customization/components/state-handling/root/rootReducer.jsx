@@ -184,21 +184,13 @@ const rootReducer = (state = initialState, action) => {
     case SELECTED_DOOR_FRONT_ARCHITRAVE:
       return {
         ...state,
-        frontArchitrave: action?.payload,
-        selectedFrontArchitrave:
-          state?.frontArchitrave
-            ? state?.frontArchitrave
-            : action?.payload,
+        frontArchitrave: action?.payload
       };
 
     case SELECTED_DOOR_BACK_ARCHITRAVE:
       return {
         ...state,
         backArchitrave: action?.payload,
-        selectedBackArchitrave:
-          state?.backArchitrave
-            ? state?.backArchitrave
-            : action?.payload,
       };
 
     default:

@@ -14,6 +14,8 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
     jambLocationData,
     doorThicknessData,
     selectedPreviousDoorThicknessData,
+    frontArchitraveData,
+    backArchitraveData
   }) {
     console.log("Adjust height width");
 
@@ -39,6 +41,35 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
       if (!meshRef?.current) return;
       adjustDoorThickness(meshRef.current);
     }, [doorThicknessData]);
+
+    // FRONT ARCHITRAVES
+    useEffect(() => {
+      if (!meshRef?.current) return;
+      adjustFrontArchitrave(meshRef.current);
+    }, [frontArchitraveData]);
+
+    // BACK ARCHITRAVES
+    useEffect(() => {
+      if (!meshRef?.current) return;
+      adjustBackArchitrave(meshRef.current);
+    }, [backArchitraveData]);
+
+
+    // ==========================================
+    // Adjust ( Front architrave )
+    // ==========================================
+
+    function adjustFrontArchitrave(meshes) {
+      setMorphTarget(meshes.frontArchitrave, "S60", frontArchitraveData === "S60" ? 1 : 0);     
+    }
+
+    // ==========================================
+    // Adjust ( Back architrave )
+    // ==========================================
+
+    function adjustBackArchitrave(meshes) {
+      setMorphTarget(meshes.backArchitrave, "S60", backArchitraveData === "S60" ? 1 : 0);     
+    }
 
     // ==========================================
     // Adjust ( Door Thickness )

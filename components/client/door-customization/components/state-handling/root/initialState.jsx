@@ -42,9 +42,7 @@ const initialState = {
     selectedPreviousFrameSection : null,
     selectedDoorThickness : null,
     selectedJambLocation : null,
-    selectedOrientation : null,
-    selectedFrontArchitrave : null,
-    selectedBackArchitrave : null,
+    selectedOrientation : null
 };
 
 export default initialState;
