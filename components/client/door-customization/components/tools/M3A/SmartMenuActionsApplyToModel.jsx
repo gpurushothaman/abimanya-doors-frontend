@@ -13,21 +13,21 @@ const SmartMenuActionsApplyToModel = React.memo(
 
     useEffect(() => {    
       if (!meshRef?.current) return;
-      showThreshold(meshRef);
+      showThreshold(meshRef);   
     }, [thresholdStatus]);
 
     // ==========================================
     // SHOW DOOR ONLY
     // ==========================================
     function showDoorOnly(meshes) {
-      meshes.current.frame.visible = meshes.current.jamb.visible = meshes.current.threshold.visible = meshes.current.wall.visible = meshes.current.frontArchitrave.visible = meshes.current.backArchitrave.visible = !doorOnlyStatus;
+      meshes.current.frame.visible = meshes.current.jamb.visible = meshes.current.wall.visible = meshes.current.frontArchitrave.visible = meshes.current.backArchitrave.visible = !doorOnlyStatus;
     }
 
     // ==========================================
     // SHOW THRESHOLD
     // ==========================================
     function showThreshold(meshes) {
-       meshes.current.threshold.visible = thresholdStatus;
+       meshes.current.threshold.visible = thresholdStatus === "Yes" ? true : false;
     }
 
     return null;

@@ -185,7 +185,7 @@ export default function Customize({ optionsData }) {
       initialFrameType: optionsData?.frameTypes?.[0],
       initialFrameTypeOption: optionsData?.frameTypeOptions?.[0],
       initialFrameSection: optionsData?.frameSections?.[0],
-      initialThreshold: optionsData?.doorThresholds?.[0],
+      initialThreshold: optionsData?.doorThresholds?.[1],
       initialOrientation: optionsData?.doorOrientationDatas?.[0],
       initialJambLocation: optionsData?.doorJambLocationDatas?.[0],
       initialFrontArchitrave:
