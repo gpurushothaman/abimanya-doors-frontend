@@ -275,12 +275,14 @@ export default function Customize({ optionsData }) {
 
       return;
     }
+    
 
     /* -----------------------------------------------------
        Save current quotation snapshot
     ----------------------------------------------------- */
+  
 
-    setSavedDoorShutterQuotation(doorShutterQuotation);
+    setSavedDoorShutterQuotation({...doorShutterQuotation,wall: state?.wall,orientation: state?.orientation,});
 
     setSavedDoorFrameQuotation(doorFrameQuotation);
 
@@ -1057,7 +1059,7 @@ export default function Customize({ optionsData }) {
 
       {isQuotationOpen && quotationMockData && (
         <QuotationModal
-          quotation={quotationMockData}
+          quotation={{...quotationMockData,wall: state?.wall,}}
           doorShutterQuotation={savedDoorShutterQuotation}
           doorFrameQuotation={savedDoorFrameQuotation}
           architraveQuotation={savedArchitraveQuotation}

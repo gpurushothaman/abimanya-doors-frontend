@@ -17,19 +17,19 @@ const quotationMockData = {
   configuration: [
     ["Door Location", "Not Selected", "Frame Included", "full"],
 
-    ["Door Design", "laminate", "Frame Type", "solidWoodJamb"],
+    // ["Door Design", "laminate", "Frame Type", "solidWoodJamb"],
 
-    ["Door Sub Design", "elite", "Frame Option", "Africanteak"],
+    // ["Door Sub Design", "elite", "Frame Option", "Africanteak"],
 
     ["Door Model", "LE_1", "Threshold", "Yes"],
 
-    ["Door Shade", "LE_1_european_walnut", "Jamb Location", "Front"],
+    // ["Door Shade", "LE_1_european_walnut", "Jamb Location", "Front"],
 
     ["Door Thickness", "45", "Architrave - Front", "S40"],
 
-    ["Door Orientation", "RHS", "Architrave - Back", "S60"],
+     ["Door Orientation", "RHS", "Architrave - Back", "S60"],
 
-    ["Wall Size (HxWxT)", "2000 x 1000 x 140 mm", "Quantity", "1"],
+    // ["Wall Size (HxWxT)", "2000 x 1000 x 140 mm", "Quantity", "1"],
 
     ["Finished Door Height", "1898 mm", "Effective SFT", "18.34605"],
 
@@ -81,9 +81,8 @@ const quotationMockData = {
     {
       slNo: 6,
       description: "Hardware & Accessories",
-      badge: "Price Not Configured",
       quantity: "1",
-      unit: "NOS",
+      // unit: "NOS",
       amount: "0",
     },
   ],

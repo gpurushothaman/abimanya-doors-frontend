@@ -23,6 +23,8 @@ export default function QuotationModal({
   }
 
 
+
+
   /* =======================================================
      MERGE ALL DYNAMIC DATA
   ======================================================== */
@@ -46,6 +48,10 @@ export default function QuotationModal({
     commercial = {},
   } = displayQuotation;
 
+console.log(
+  "QUOTATION ORIENTATION:",
+  doorShutterQuotation?.orientation
+);
 
   return (
 
@@ -654,6 +660,7 @@ function formatFrameSection(
 }
 
 
+
 /* =========================================================
    DOOR SHUTTER CONFIGURATION
 ========================================================= */
@@ -669,6 +676,13 @@ function buildDoorShutterConfigurationRows(
     quotation?.calculation ||
     {};
 
+  const wall =
+    quotation?.wall ||
+    {};
+
+  const orientationName =
+    quotation?.orientation?.doorOrientationName ||
+    "-";
 
   return [
 
@@ -694,10 +708,9 @@ function buildDoorShutterConfigurationRows(
         config.thickness
       ),
 
-      "Frame Section",
-      formatFrameSection(
-        config.frameSection,
-        calculation.frameSectionDimensions
+      "Door Wall Thickness",
+      formatMM(
+        wall.thickness
       ),
     ],
 
@@ -705,37 +718,13 @@ function buildDoorShutterConfigurationRows(
       "Threshold",
       config.threshold || "-",
 
-      "Wall Height",
-      formatMM(
-        config.wallHeight
-      ),
+      "Door Orientation",
+      orientationName,
     ],
 
-    [
-      "Wall Width",
-      formatMM(
-        config.wallWidth
-      ),
-
-      "Finished Height",
-      formatMM(
-        calculation.finishedHeight
-      ),
-    ],
-
-    [
-      "Finished Width",
-      formatMM(
-        calculation.finishedWidth
-      ),
-
-      "Effective SFT",
-      `${formatSFT(
-        calculation.effectiveSFT
-      )} SFT`,
-    ],
   ];
 }
+
 
 
 /* =========================================================
@@ -749,58 +738,47 @@ function buildDoorFrameConfigurationRows(
     quotation?.configuration ||
     {};
 
-  const calculation =
-    quotation?.calculation ||
-    {};
-
-  const pricing =
-    quotation?.pricing ||
-    {};
+  const frameIncluded =
+    config.frameName ||
+    config.frameValue ||
+    "-";
 
 
   return [
 
     [
+      "Frame Included",
+      frameIncluded,
+
       "Frame Material",
       config.frameMaterial || "-",
-
-      "Frame Section",
-      config.frameSectionSize || "-",
     ],
 
+
     [
+      "Frame Section",
+      config.frameSectionSize || "-",
+
       "Frame Wall Height",
       formatMM(
         config.wallHeight
       ),
+    ],
 
+
+    [
       "Frame Wall Width",
       formatMM(
         config.wallWidth
       ),
+
+      "",
+      "",
     ],
 
-    [
-      "Frame Threshold",
-      config.threshold || "-",
-
-      "Frame Formula",
-      calculation.formula || "-",
-    ],
-
-    [
-      "Frame Length",
-      `${formatRFT(
-        calculation.totalRFT
-      )} RFT`,
-
-      "Frame Rate",
-      `₹ ${formatMoney(
-        pricing.rate
-      )}/RFT`,
-    ],
   ];
 }
+
 
 
 /* =========================================================
@@ -812,7 +790,6 @@ function buildArchitraveConfigurationRows(
 ) {
   const rows = [];
 
-
   /* -------------------------------------------------------
      FRONT
   ------------------------------------------------------- */
@@ -820,42 +797,20 @@ function buildArchitraveConfigurationRows(
   const front =
     quotation?.front;
 
-
   if (front) {
 
     rows.push([
 
       "Architrave Front",
 
-      `${
-        front.pricing?.material ||
-        "-"
-      } - S${
-        front.width ||
-        "-"
+      `${front.pricing?.material ||
+      "-"
+      } - S${front.width ||
+      "-"
       }`,
 
-      "Front Formula",
-
-      front.calculation?.formula ||
-      "-",
-
-    ]);
-
-
-    rows.push([
-
-      "Front Length",
-
-      `${formatArchitraveRFT(
-        front.rft
-      )} RFT`,
-
-      "Front Rate",
-
-      `₹ ${formatMoney(
-        front.rate
-      )}/RFT`,
+      "",
+      "",
 
     ]);
 
@@ -869,42 +824,20 @@ function buildArchitraveConfigurationRows(
   const back =
     quotation?.back;
 
-
   if (back) {
 
     rows.push([
 
       "Architrave Back",
 
-      `${
-        back.pricing?.material ||
-        "-"
-      } - S${
-        back.width ||
-        "-"
+      `${back.pricing?.material ||
+      "-"
+      } - S${back.width ||
+      "-"
       }`,
 
-      "Back Formula",
-
-      back.calculation?.formula ||
-      "-",
-
-    ]);
-
-
-    rows.push([
-
-      "Back Length",
-
-      `${formatArchitraveRFT(
-        back.rft
-      )} RFT`,
-
-      "Back Rate",
-
-      `₹ ${formatMoney(
-        back.rate
-      )}/RFT`,
+      "",
+      "",
 
     ]);
 
@@ -913,7 +846,6 @@ function buildArchitraveConfigurationRows(
 
   return rows;
 }
-
 
 /* =========================================================
    MERGE QUOTATION DATA
@@ -1027,8 +959,8 @@ function mergeQuotationData(
     const existingItem =
       existingIndex >= 0
         ? nextItems[
-            existingIndex
-          ]
+        existingIndex
+        ]
         : null;
 
 
@@ -1039,13 +971,13 @@ function mergeQuotationData(
     const maxSlNo =
       nextItems.length
         ? Math.max(
-            ...nextItems.map(
-              (item) =>
-                Number(
-                  item?.slNo
-                ) || 0
-            )
+          ...nextItems.map(
+            (item) =>
+              Number(
+                item?.slNo
+              ) || 0
           )
+        )
         : 0;
 
 
@@ -1137,11 +1069,11 @@ function mergeQuotationData(
       amount:
         priceConfigured
           ? formatMoney(
-              amount
-            )
+            amount
+          )
           : formatMoney(
-              0
-            ),
+            0
+          ),
 
 
       priceConfigured,
@@ -1151,8 +1083,8 @@ function mergeQuotationData(
         priceConfigured
 
           ? `₹ ${formatMoney(
-              rate
-            )}/${rateUnit}`
+            rate
+          )}/${rateUnit}`
 
           : "Price Not Configured",
     };
@@ -1302,8 +1234,8 @@ function mergeQuotationData(
     ...(
       doorShutterQuotation
         ? buildDoorShutterConfigurationRows(
-            doorShutterQuotation
-          )
+          doorShutterQuotation
+        )
         : []
     ),
 
@@ -1313,8 +1245,8 @@ function mergeQuotationData(
     ...(
       doorFrameQuotation
         ? buildDoorFrameConfigurationRows(
-            doorFrameQuotation
-          )
+          doorFrameQuotation
+        )
         : []
     ),
 
@@ -1324,8 +1256,8 @@ function mergeQuotationData(
     ...(
       architraveQuotation
         ? buildArchitraveConfigurationRows(
-            architraveQuotation
-          )
+          architraveQuotation
+        )
         : []
     ),
 
@@ -1363,12 +1295,60 @@ function mergeQuotationData(
             row?.[0]
           );
 
-
         const label2 =
           normalizeLabel(
             row?.[2]
           );
 
+
+        /* ---------------------------------------------------
+           REMOVE UNWANTED MOCK CONFIGURATION
+        --------------------------------------------------- */
+
+        const hiddenLabels = new Set([
+          "effective sft",
+
+          "frame threshold",
+          "frame length",
+          "frame rate",
+          "frame amount",
+
+          "front amount",
+          "front length",
+          "front rate",
+
+          "back amount",
+          "back length",
+          "back rate",
+
+          "finished door width",
+
+          "finished height",
+          "finished width",
+
+          "wall height",
+          "wall width",
+
+          "frame included",
+          "door orientation",
+        ]);
+
+
+        const hasHiddenLabel =
+          hiddenLabels.has(label1) ||
+          hiddenLabels.has(label2);
+
+
+        if (
+          hasHiddenLabel
+        ) {
+          return false;
+        }
+
+
+        /* ---------------------------------------------------
+           REMOVE DUPLICATES REPLACED BY DYNAMIC DATA
+        --------------------------------------------------- */
 
         return (
           !dynamicLabels.has(
@@ -1380,6 +1360,16 @@ function mergeQuotationData(
         );
       }
     );
+  /* =======================================================
+ REBUILD SERIAL NUMBERS
+======================================================== */
+
+  nextItems = nextItems.map(
+    (item, index) => ({
+      ...item,
+      slNo: index + 1,
+    })
+  );
 
 
   /* =======================================================
@@ -1391,7 +1381,7 @@ function mergeQuotationData(
       nextItems,
 
       quotation?.commercial ||
-        {}
+      {}
     );
 
 
@@ -1734,10 +1724,9 @@ function InfoRow({
           border-gray-300
           pb-1
           text-[#303030]
-          ${
-            bold
-              ? "font-bold"
-              : "font-medium"
+          ${bold
+            ? "font-bold"
+            : "font-medium"
           }
         `}
       >
@@ -1757,8 +1746,65 @@ function InfoRow({
 function ConfigurationTable({
   configuration,
 }) {
-  return (
+  /*
+  |--------------------------------------------------------------------------
+  | FLATTEN ALL NON-EMPTY LABEL/VALUE PAIRS
+  |--------------------------------------------------------------------------
+  */
 
+  const pairs = [];
+
+  configuration.forEach((row) => {
+    const [
+      label1,
+      value1,
+      label2,
+      value2,
+    ] = row;
+
+    if (
+      label1 &&
+      String(label1).trim() !== ""
+    ) {
+      pairs.push([
+        label1,
+        value1,
+      ]);
+    }
+
+    if (
+      label2 &&
+      String(label2).trim() !== ""
+    ) {
+      pairs.push([
+        label2,
+        value2,
+      ]);
+    }
+  });
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | CREATE 2 PAIRS PER ROW
+  |--------------------------------------------------------------------------
+  */
+
+  const rows = [];
+
+  for (
+    let i = 0;
+    i < pairs.length;
+    i += 2
+  ) {
+    rows.push([
+      pairs[i],
+      pairs[i + 1] || null,
+    ]);
+  }
+
+
+  return (
     <div
       className="
         overflow-hidden
@@ -1767,19 +1813,20 @@ function ConfigurationTable({
       "
     >
 
-      {configuration.map(
-        (row, index) => {
+      {rows.map(
+        (
+          row,
+          index
+        ) => {
 
-          const [
-            label1,
-            value1,
-            label2,
-            value2,
-          ] = row;
+          const firstPair =
+            row[0];
+
+          const secondPair =
+            row[1];
 
 
           return (
-
             <div
               key={index}
               className="
@@ -1791,6 +1838,10 @@ function ConfigurationTable({
               "
             >
 
+              {/* =================================================
+                  FIRST LABEL
+              ================================================== */}
+
               <div
                 className="
                   bg-[#fbfbfb]
@@ -1800,9 +1851,13 @@ function ConfigurationTable({
                   text-[#606060]
                 "
               >
-                {label1}
+                {firstPair?.[0]}
               </div>
 
+
+              {/* =================================================
+                  FIRST VALUE
+              ================================================== */}
 
               <div
                 className="
@@ -1816,9 +1871,13 @@ function ConfigurationTable({
                   text-[#008c91]
                 "
               >
-                {value1}
+                {firstPair?.[1]}
               </div>
 
+
+              {/* =================================================
+                  SECOND LABEL
+              ================================================== */}
 
               <div
                 className="
@@ -1831,9 +1890,13 @@ function ConfigurationTable({
                   text-[#606060]
                 "
               >
-                {label2}
+                {secondPair?.[0] || ""}
               </div>
 
+
+              {/* =================================================
+                  SECOND VALUE
+              ================================================== */}
 
               <div
                 className="
@@ -1847,17 +1910,15 @@ function ConfigurationTable({
                   text-[#008c91]
                 "
               >
-                {value2}
+                {secondPair?.[1] || ""}
               </div>
 
             </div>
-
           );
         }
       )}
 
     </div>
-
   );
 }
 
@@ -1984,10 +2045,9 @@ function CostBreakdown({
                     py-1
                     text-[11px]
                     font-bold
-                    ${
-                      item?.priceConfigured
-                        ? "bg-[#e5f8df] text-[#157347]"
-                        : "bg-[#ffbd19] text-black"
+                    ${item?.priceConfigured
+                      ? "bg-[#e5f8df] text-[#157347]"
+                      : "bg-[#ffbd19] text-black"
                     }
                   `}
                 >
@@ -2079,19 +2139,17 @@ function CommercialSummary({
 
       <SummaryRow
         label="Subtotal (A)"
-        value={`₹ ${
-          commercial?.subtotalA ||
+        value={`₹ ${commercial?.subtotalA ||
           "0.000"
-        }`}
+          }`}
       />
 
 
       <SummaryRow
         label="Transport Charges"
-        value={`₹ ${
-          commercial?.transportCharges ||
+        value={`₹ ${commercial?.transportCharges ||
           "0.000"
-        }`}
+          }`}
       />
 
 
@@ -2100,10 +2158,9 @@ function CommercialSummary({
           commercial?.dealerMarginLabel ||
           "Dealer Margin"
         }
-        value={`₹ ${
-          commercial?.dealerMargin ||
+        value={`₹ ${commercial?.dealerMargin ||
           "0.000"
-        }`}
+          }`}
       />
 
 
@@ -2143,10 +2200,9 @@ function CommercialSummary({
 
       <SummaryRow
         label="GST @ 18%"
-        value={`₹ ${
-          commercial?.gst ||
+        value={`₹ ${commercial?.gst ||
           "0.000"
-        }`}
+          }`}
       />
 
 
