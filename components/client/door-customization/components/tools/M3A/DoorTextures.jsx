@@ -9,7 +9,7 @@ const DoorTextures = React.memo(function DoorTextures({
   modelData,
   shadeData,
   meshRef,
-  modelPath,
+  modelPath
 }) {
   // ==========================================
   // MODEL DATA → MODEL MAIN TEXTURE
@@ -19,6 +19,14 @@ const DoorTextures = React.memo(function DoorTextures({
 
     const doorTextureUrl = modelData?.modelMainTexturePath
       ? `${SERVER_URL}/${modelData.modelMainTexturePath}`
+      : null;
+
+    const roughnessMapTextureUrl = modelData?.modelRoughnessMapTexturePath
+      ? `${SERVER_URL}/${modelData.modelRoughnessMapTexturePath}`
+      : null;
+
+    const normalMapTextureUrl = modelData?.modelNormalMapTexturePath
+      ? `${SERVER_URL}/${modelData.modelNormalMapTexturePath}`
       : null;
 
     const seamlessTextureUrl = modelData?.textureData?.[0]?.texturePath
@@ -33,7 +41,9 @@ const DoorTextures = React.memo(function DoorTextures({
       meshRef.current,
       doorTextureUrl,
       seamlessTextureUrl,
-      modelData?.modelValue
+      modelData?.modelValue,
+      roughnessMapTextureUrl,
+      normalMapTextureUrl
     );
   }, [
     modelData?.modelMainTexturePath,
@@ -50,6 +60,14 @@ const DoorTextures = React.memo(function DoorTextures({
       ? `${SERVER_URL}/${shadeData.texturePath}`
       : null;
 
+    const roughnessMapTextureUrl = modelData?.modelRoughnessMapTexturePath
+      ? `${SERVER_URL}/${modelData.modelRoughnessMapTexturePath}`
+      : null;
+
+    const normalMapTextureUrl = modelData?.modelNormalMapTexturePath
+      ? `${SERVER_URL}/${modelData.modelNormalMapTexturePath}`
+      : null;
+
     const seamlessTextureUrl = shadeData?.textureData?.[0]?.texturePath
       ? `${SERVER_URL}/${shadeData.textureData[0].texturePath}`
       : null;
@@ -62,7 +80,9 @@ const DoorTextures = React.memo(function DoorTextures({
       meshRef.current,
       doorTextureUrl,
       seamlessTextureUrl,
-      modelData?.modelValue
+      modelData?.modelValue,
+      roughnessMapTextureUrl,
+      normalMapTextureUrl
     );
   }, [shadeData?.texturePath, shadeData?.textureData?.[0]?.texturePath]);
 
@@ -73,7 +93,9 @@ const DoorTextures = React.memo(function DoorTextures({
     meshes,
     doorTextureUrl,
     seamlessTextureUrl,
-    modelValue
+    modelValue,
+    modelRoughnessMapTexturePath,
+    modelNormalMapTexturePath
   ) {
     const textureLoader = new THREE.TextureLoader();
 
@@ -90,6 +112,38 @@ const DoorTextures = React.memo(function DoorTextures({
 
       if (selectDoorMesh === meshName) {
         textureUrl = doorTextureUrl;
+
+        if (modelRoughnessMapTexturePath) {
+          textureLoader.load(modelRoughnessMapTexturePath, (roughnessMap) => {
+            roughnessMap.flipY = false;
+            roughnessMap.colorSpace = THREE.SRGBColorSpace;
+
+            const material = new THREE.MeshPhysicalMaterial({
+              color: 0xffffff,
+              map: mesh.material.map,
+              roughness: 1.0,
+              roughnessMap: roughnessMap,
+              metalness: 0.2,
+              envMapIntensity: 50,
+            });
+
+            mesh.material = material;
+          });
+        }
+
+        if (modelNormalMapTexturePath) {
+          textureLoader.load(
+            modelNormalMapTexturePath,
+            function (normalTexture) {
+              normalTexture.flipY = false;
+              normalTexture.colorSpace = THREE.NoColorSpace;
+
+              mesh.material.normalMap = normalTexture;
+              mesh.material.normalScale.set(1, 1);
+              mesh.material.needsUpdate = true;
+            }
+          );
+        }
       }
 
       //Apply seamless texture

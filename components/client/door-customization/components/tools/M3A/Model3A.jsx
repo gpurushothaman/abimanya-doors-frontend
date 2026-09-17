@@ -62,7 +62,7 @@ const Model3A = React.memo(function Model3A({
         modelData={modelData}
         shadeData={shadeData}
         meshRef={meshRef}
-        modelPath={modelData?.modelPath}
+        modelPath={modelData?.modelPath}     
       />
     </group>
   );

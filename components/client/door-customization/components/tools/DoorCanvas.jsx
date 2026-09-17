@@ -106,7 +106,7 @@ export default function DoorCanvas({ state, dispatch }) {
         />
 
         {/* HDR reflections */}
-        <Environment preset="studio" environmentIntensity={0.5} />
+        <Environment files="/models/env/test.hdr" environmentIntensity={0.5} />
 
         <Model3A
           object={model3AObject}
