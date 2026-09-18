@@ -125,6 +125,7 @@ export default function DoorCanvas({ state, dispatch }) {
           selectedPreviousDoorThicknessData={state?.selectedDoorThickness}
           frontArchitraveData={state?.frontArchitrave}
           backArchitraveData={state?.backArchitrave}
+          designData={state?.design}
         />
 
         <OrbitControls enableDamping />

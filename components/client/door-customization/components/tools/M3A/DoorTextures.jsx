@@ -9,7 +9,7 @@ const DoorTextures = React.memo(function DoorTextures({
   modelData,
   shadeData,
   meshRef,
-  modelPath
+  modelPath,
 }) {
   // ==========================================
   // MODEL DATA → MODEL MAIN TEXTURE
@@ -113,36 +113,61 @@ const DoorTextures = React.memo(function DoorTextures({
       if (selectDoorMesh === meshName) {
         textureUrl = doorTextureUrl;
 
-        if (modelRoughnessMapTexturePath) {
-          textureLoader.load(modelRoughnessMapTexturePath, (roughnessMap) => {
-            roughnessMap.flipY = false;
-            roughnessMap.colorSpace = THREE.SRGBColorSpace;
+        const models = [
+          "LF_1",
+          "LF_3",
+          "LF_4",
+          "LF_5",
+          "LF_6",
+          "LF_7",
+          "LF_9",
+          "LF_11",
+          "LF_12",
+          "LP_4",
+          "LT_1",
+          "LT_2",
+          "LT_3",
+          "LT_4",
+          "LT_5",
+          "LT_6",
+          "VE_1",
+          "VE_2",
+          "VE_3",
+        ];
+        if (models.includes(modelValue)) {
+          if (modelRoughnessMapTexturePath) {
+            textureLoader.load(modelRoughnessMapTexturePath, (roughnessMap) => {
+              roughnessMap.flipY = false;
+              roughnessMap.colorSpace = THREE.SRGBColorSpace;
 
-            const material = new THREE.MeshPhysicalMaterial({
-              color: 0xffffff,
-              map: mesh.material.map,
-              roughness: 1.0,
-              roughnessMap: roughnessMap,
-              metalness: 0.2,
-              envMapIntensity: 50,
+              const material = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                map: mesh.material.map,
+                roughness: 1.0,
+                roughnessMap: roughnessMap,
+                metalness: 0.2,
+                envMapIntensity: 50,
+              });
+
+              mesh.material = material;
             });
+          }
 
-            mesh.material = material;
-          });
-        }
+          if (modelNormalMapTexturePath) {
+            textureLoader.load(
+              modelNormalMapTexturePath,
+              function (normalTexture) {
+                normalTexture.flipY = false;
+                normalTexture.colorSpace = THREE.NoColorSpace;
 
-        if (modelNormalMapTexturePath) {
-          textureLoader.load(
-            modelNormalMapTexturePath,
-            function (normalTexture) {
-              normalTexture.flipY = false;
-              normalTexture.colorSpace = THREE.NoColorSpace;
-
-              mesh.material.normalMap = normalTexture;
-              mesh.material.normalScale.set(1, 1);
-              mesh.material.needsUpdate = true;
-            }
-          );
+                mesh.material.normalMap = normalTexture;
+                mesh.material.normalScale.set(1, 1);
+                mesh.material.needsUpdate = true;
+              }
+            );
+          }
+        } else {
+          mesh.material = meshes.door.plain.material.clone();
         }
       }
 

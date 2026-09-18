@@ -120,7 +120,7 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
 
       //Reset
       if (selectedPreviousFrameSectionData) {
-        if (jambLocationData === "front") {
+        if (jambLocationData?.jambLocationValue === "front") {
           //3A
           framesectionDictName =
             selectedPreviousFrameSectionData?.frameSectionValue;
@@ -146,7 +146,7 @@ const AdjustHeightWidthThicknessApplyToModel = React.memo(
         setMorphTarget(meshes.threshold, thresholdDictName, 0);
       }
 
-      if (jambLocationData === "front") {
+      if (jambLocationData?.jambLocationValue === "front") {
         //3A
         framesectionDictName = frameSectionData?.frameSectionValue;
         thresholdDictName = frameSectionData?.frameSectionValue?.replace(

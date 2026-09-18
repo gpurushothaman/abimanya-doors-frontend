@@ -40,6 +40,8 @@ const MainDoorModel = React.memo(
             child.material.roughness = 0.4;
           }
           meshRef.current.door = child;
+          meshRef.current.door.plain = {};
+          meshRef.current.door.plain.material = child.material.clone();                
         }
 
         // JAMB

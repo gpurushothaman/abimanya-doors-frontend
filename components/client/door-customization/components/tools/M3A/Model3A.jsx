@@ -23,7 +23,8 @@ const Model3A = React.memo(function Model3A({
   doorThicknessData,
   selectedPreviousDoorThicknessData,
   frontArchitraveData,
-  backArchitraveData
+  backArchitraveData,
+  designData
 }) {
   const meshRef = useRef({});
   return (
@@ -36,6 +37,7 @@ const Model3A = React.memo(function Model3A({
         modelValue={modelData?.modelValue}
         selectedPreviousModelData={selectedPreviousModelData}
         meshRef={meshRef}
+        designData={designData}
       />
 
       <SmartMenuActionsApplyToModel
