@@ -15,6 +15,7 @@ const initialState = {
     orientation: null, 
     frontArchitrave : null,
     backArchitrave : null,
+    doorWithFrame: null,
     smartMenuAction: {
         doorOnlyStatus : true,
         canvasBackgroundThemeStatus : false,

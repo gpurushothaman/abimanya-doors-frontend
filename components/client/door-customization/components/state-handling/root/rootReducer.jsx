@@ -20,7 +20,8 @@ import {
   SELECTED_JAMB_LOCATION,
   SELECTED_DOOR_ORIENTATION,
   SELECTED_DOOR_FRONT_ARCHITRAVE,
-  SELECTED_DOOR_BACK_ARCHITRAVE
+  SELECTED_DOOR_BACK_ARCHITRAVE,
+  SELECTED_DOOR_WITH_FRAME
 } from "./initialConstants";
 
 const rootReducer = (state = initialState, action) => {
@@ -191,6 +192,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         backArchitrave: action?.payload,
+      };
+
+    case SELECTED_DOOR_WITH_FRAME:
+      return {
+        ...state,
+        doorWithFrame: action?.payload,
       };
 
     default:

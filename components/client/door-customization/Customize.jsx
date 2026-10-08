@@ -38,6 +38,8 @@ import OptionOrientation from "./components/OptionOrientation";
 import OptionFrontArchitrave from "./components/OptionFrontArchitrave";
 import OptionBackArchitrave from "./components/OptionBackArchitrave";
 
+import OptionDoorWithFrameSection from "./components/OptionDoorWithFrameSection";
+
 /* =========================================================
    TOOLS
 ========================================================= */
@@ -275,14 +277,16 @@ export default function Customize({ optionsData }) {
 
       return;
     }
-    
 
     /* -----------------------------------------------------
        Save current quotation snapshot
     ----------------------------------------------------- */
-  
 
-    setSavedDoorShutterQuotation({...doorShutterQuotation,wall: state?.wall,orientation: state?.orientation,});
+    setSavedDoorShutterQuotation({
+      ...doorShutterQuotation,
+      wall: state?.wall,
+      orientation: state?.orientation,
+    });
 
     setSavedDoorFrameQuotation(doorFrameQuotation);
 
@@ -688,6 +692,11 @@ export default function Customize({ optionsData }) {
                       state={state}
                       dispatch={dispatch}
                     />
+
+                    <OptionDoorWithFrameSection
+                      state={state}
+                      dispatch={dispatch}
+                    />
                   </div>
                 </details>
 
@@ -1059,7 +1068,7 @@ export default function Customize({ optionsData }) {
 
       {isQuotationOpen && quotationMockData && (
         <QuotationModal
-          quotation={{...quotationMockData,wall: state?.wall,}}
+          quotation={{ ...quotationMockData, wall: state?.wall }}
           doorShutterQuotation={savedDoorShutterQuotation}
           doorFrameQuotation={savedDoorFrameQuotation}
           architraveQuotation={savedArchitraveQuotation}

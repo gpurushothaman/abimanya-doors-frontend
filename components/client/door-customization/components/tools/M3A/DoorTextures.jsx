@@ -133,7 +133,9 @@ const DoorTextures = React.memo(function DoorTextures({
           "VE_1",
           "VE_2",
           "VE_3",
-        ];
+        ];       
+      
+
         if (models.includes(modelValue)) {
           if (modelRoughnessMapTexturePath) {
             textureLoader.load(modelRoughnessMapTexturePath, (roughnessMap) => {
@@ -166,7 +168,7 @@ const DoorTextures = React.memo(function DoorTextures({
               }
             );
           }
-        } else {
+        }else{
           mesh.material = meshes.door.plain.material.clone();
         }
       }

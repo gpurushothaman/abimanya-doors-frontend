@@ -19,7 +19,8 @@ import {
     SELECTED_JAMB_LOCATION,
     SELECTED_DOOR_ORIENTATION,
     SELECTED_DOOR_FRONT_ARCHITRAVE,
-    SELECTED_DOOR_BACK_ARCHITRAVE
+    SELECTED_DOOR_BACK_ARCHITRAVE,
+    SELECTED_DOOR_WITH_FRAME
 } from "./initialConstants";
 
 //Store - Initial fetched data from api
@@ -146,4 +147,10 @@ export const storeFrontArchitrave = (architrave) => ({
 export const storeBackArchitrave = (architrave) => ({
   type: SELECTED_DOOR_BACK_ARCHITRAVE,
   payload: architrave
+});
+
+//Store - Door with frame
+export const storeDoorWithFrame = (doorWithFrame) => ({
+  type: SELECTED_DOOR_WITH_FRAME,
+  payload: doorWithFrame
 });

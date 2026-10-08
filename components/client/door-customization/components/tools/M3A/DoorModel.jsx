@@ -20,12 +20,12 @@ const DoorModel = React.memo(function DoorModel({
     if (!modelPath) {
       if (meshRef?.current) {
         meshRef.current.door.visible = true;
-        meshRef.current.door.material.roughness =
-        designData?.designValue === "laminate"
-          ? 0.4
-          : designData?.designValue === "veneer"
-          ? 0.1
-          : 0.4;
+        // meshRef.current.door.material.roughness =
+        // designData?.designValue === "laminate"
+        //   ? 0.4
+        //   : designData?.designValue === "veneer"
+        //   ? 0.1
+        //   : 0.4;
       }
       return;
     }
